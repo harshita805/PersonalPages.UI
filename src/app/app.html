@@ -1,18 +1,30 @@
 <mat-toolbar color="primary">
-    <span>Personal Pages</span>
+    <span (click)="goToDashboard()" role="button">Personal Pages</span>
+
     <span class="spacer"></span>
 
-    <!-- Dropdown menu -->
-    <mat-menu #userMenu="matMenu">
-        <button mat-menu-item (click)="goToProfile()">
-            Edit Profile
+    <!-- Show menu only if logged in -->
+    @if(auth.isLoggedIn()){
+    <ng-container>
+
+        <button mat-button [matMenuTriggerFor]="accountMenu">
+            Account
         </button>
-        @if(auth.isLoggedIn()){ <!-- Logout only if logged in -->
-        <button mat-menu-item (click)="logout()">
-            Logout
-        </button>
-        }
-    </mat-menu>
+
+        <mat-menu #accountMenu="matMenu">
+            <button mat-menu-item (click)="goToProfile()">
+                Edit Profile
+            </button>
+            <button mat-menu-item (click)="goToMyJournals()">
+                My Journals
+            </button>
+            <button mat-menu-item (click)="logout()">
+                Logout
+            </button>
+        </mat-menu>
+
+    </ng-container>
+    }
 </mat-toolbar>
 <app-loader></app-loader>
 <router-outlet></router-outlet>

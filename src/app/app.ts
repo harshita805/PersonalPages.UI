@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatToolbarModule,
     LoaderComponent,
     MatMenuModule,
+    MatButtonModule
   ],
   templateUrl: './app.html',
   styles: [`
@@ -39,8 +40,15 @@ export class AppComponent {
     this.router.navigate(['/login']);
   }
 
-   goToProfile() {
+  goToProfile() {
     this.router.navigate(['/profile']);
   }
 
+  goToMyJournals() {
+    this.router.navigate(['/journal/my']);
+  }
+
+  goToDashboard() {
+    this.router.navigate(['/']);
+  }
 }
