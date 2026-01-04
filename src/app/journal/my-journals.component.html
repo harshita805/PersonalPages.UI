@@ -1,0 +1,24 @@
+<mat-card class="page-card">
+  <h2>My Journal Entries</h2>
+
+  <!-- If no journals -->
+  <p *ngIf="journals.length === 0">
+    You have not written any journal entries yet.
+  </p>
+
+  <!-- Journal list -->
+  <mat-card class="journal-card" *ngFor="let journal of journals">
+    <h3>{{ journal.title }}</h3>
+
+    <p>
+      <strong>Mood:</strong>
+      <span class="mood">{{ journal.mood }}</span>
+    </p>
+
+    <div class="actions">
+      <button mat-button color="primary">View</button>
+      <button mat-button color="accent">Edit</button>
+      <button mat-button color="warn">Delete</button>
+    </div>
+  </mat-card>
+</mat-card>

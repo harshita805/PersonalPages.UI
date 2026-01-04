@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+    <span>Personal Pages</span>
+    <span class="spacer"></span>
+
+    <!-- Logout only if logged in -->
+    @if(auth.isLoggedIn()){
+    <button mat-button (click)="logout()">
+        Logout
+    </button>
+    }
+</mat-toolbar>
+<app-loader></app-loader>
+<router-outlet></router-outlet>
