@@ -53,4 +53,8 @@ export class AppComponent {
   goToDashboard() {
     this.router.navigate(['/']);
   }
+
+  goToCreateJournal() {
+    this.router.navigate(['/journal/create']);
+  }
 }

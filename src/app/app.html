@@ -7,7 +7,7 @@
     @if(auth.isLoggedIn()){
     <ng-container>
         <!-- ✅ Write Entry button -->
-        <button mat-icon-button class="icon-btn" routerLink="/journal/create" matTooltip="Write Entry">
+        <button mat-icon-button class="icon-btn" (click)="goToCreateJournal()" matTooltip="Write Entry">
             <mat-icon>edit</mat-icon>
         </button>
 
