@@ -1,14 +1,19 @@
 <mat-toolbar color="primary">
-    <span (click)="goToDashboard()" role="button">Personal Pages</span>
+    <span class="cursor-pointer" (click)="goToDashboard()">Personal Pages</span>
 
     <span class="spacer"></span>
 
-    <!-- Show menu only if logged in -->
+    <!-- Show only when logged in -->
     @if(auth.isLoggedIn()){
     <ng-container>
+        <!-- ✅ Write Entry button -->
+        <button mat-icon-button class="icon-btn" routerLink="/journal/create" matTooltip="Write Entry">
+            <mat-icon>edit</mat-icon>
+        </button>
 
-        <button mat-button [matMenuTriggerFor]="accountMenu">
-            Account
+        <!-- ⋮ Three-dot menu icon -->
+        <button mat-icon-button [matMenuTriggerFor]="accountMenu" matTooltip="Account options">
+            <mat-icon>more_vert</mat-icon>
         </button>
 
         <mat-menu #accountMenu="matMenu">
@@ -26,5 +31,9 @@
     </ng-container>
     }
 </mat-toolbar>
+
+<!-- Global Loader -->
 <app-loader></app-loader>
+
+<!-- Routed Pages -->
 <router-outlet></router-outlet>

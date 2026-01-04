@@ -2,12 +2,15 @@
   <h2>My Journal Entries</h2>
 
   <!-- If no journals -->
-  <p *ngIf="journals.length === 0">
+  @if(journals.length === 0){
+  <p>
     You have not written any journal entries yet.
   </p>
+  }
 
   <!-- Journal list -->
-  <mat-card class="journal-card" *ngFor="let journal of journals">
+  @for(journal of journals;track journal){
+  <mat-card class="journal-card">
     <h3>{{ journal.title }}</h3>
 
     <p>
@@ -21,4 +24,5 @@
       <button mat-button color="warn">Delete</button>
     </div>
   </mat-card>
+  }
 </mat-card>

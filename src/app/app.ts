@@ -5,6 +5,7 @@ import { LoaderComponent } from './shared/loader.component';
 import { AuthService } from './services/auth.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatToolbarModule,
     LoaderComponent,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './app.html',
   styles: [`
