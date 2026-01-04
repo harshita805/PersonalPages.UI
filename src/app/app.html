@@ -2,12 +2,17 @@
     <span>Personal Pages</span>
     <span class="spacer"></span>
 
-    <!-- Logout only if logged in -->
-    @if(auth.isLoggedIn()){
-    <button mat-button (click)="logout()">
-        Logout
-    </button>
-    }
+    <!-- Dropdown menu -->
+    <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="goToProfile()">
+            Edit Profile
+        </button>
+        @if(auth.isLoggedIn()){ <!-- Logout only if logged in -->
+        <button mat-menu-item (click)="logout()">
+            Logout
+        </button>
+        }
+    </mat-menu>
 </mat-toolbar>
 <app-loader></app-loader>
 <router-outlet></router-outlet>

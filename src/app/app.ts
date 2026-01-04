@@ -3,6 +3,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoaderComponent } from './shared/loader.component';
 import { AuthService } from './services/auth.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,8 @@ import { AuthService } from './services/auth.service';
   imports: [
     RouterOutlet,
     MatToolbarModule,
-    LoaderComponent
+    LoaderComponent,
+    MatMenuModule,
   ],
   templateUrl: './app.html',
   styles: [`
@@ -35,4 +38,9 @@ export class AppComponent {
     this.auth.logout();
     this.router.navigate(['/login']);
   }
+
+   goToProfile() {
+    this.router.navigate(['/profile']);
+  }
+
 }

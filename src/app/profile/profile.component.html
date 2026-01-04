@@ -1,18 +1,34 @@
-<mat-card>
-  <h2>Profile</h2>
+<div class="page-container">
+  <mat-card class="form-card">
+    <h2>Edit Profile</h2>
 
-  <mat-form-field class="full">
-    <mat-label>Bio</mat-label>
-    <textarea matInput></textarea>
-  </mat-form-field>
+    <form [formGroup]="profileForm" (ngSubmit)="save()">
 
-  <mat-form-field>
-    <mat-label>Theme</mat-label>
-    <mat-select>
-      <mat-option value="light">Light</mat-option>
-      <mat-option value="dark">Dark</mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput formControlName="fullName">
+      </mat-form-field>
 
-  <button mat-raised-button>Save Preferences</button>
-</mat-card>
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+          <mat-option value="Other">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full">
+        Save Changes
+      </button>
+
+    </form>
+  </mat-card>
+</div>
