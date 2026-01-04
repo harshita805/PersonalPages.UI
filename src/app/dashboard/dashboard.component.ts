@@ -10,9 +10,8 @@ import { CommunityComponent } from '../community/community.component';
   imports: [
     MatCardModule,
     MatButtonModule,
-    RouterLink,
     CommunityComponent
   ],
   templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent {}
+export class DashboardComponent { }

@@ -6,9 +6,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateJournalComponent } from './journal/create-journal.component';
 import { MyJournalsComponent } from './journal/my-journals.component';
 import { CommunityComponent } from './community/community.component';
-import { MoodComponent } from './mood/mood.component';
 import { ProfileComponent } from './profile/profile.component';
 import { authGuard } from './guards/auth.guard';
+import { moodDialogResolver } from './mood/mood-dialog.resolver';
+import { MoodDialogComponent } from './mood/mood-dialog.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -16,6 +17,9 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: 'dashboard', component: DashboardComponent,
+    resolve: {
+      mood: moodDialogResolver   // ✅ RESOLVER ADDED
+    },
     canActivate: [authGuard]
   },
   {
@@ -31,7 +35,7 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'mood', component: MoodComponent,
+    path: 'mood', component: MoodDialogComponent,
     canActivate: [authGuard]
   },
   {

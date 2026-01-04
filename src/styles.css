@@ -43,3 +43,14 @@ body {
 .cursor-pointer{
   cursor: pointer;
 }
+
+.full {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}

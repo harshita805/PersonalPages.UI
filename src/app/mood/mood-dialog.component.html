@@ -1,0 +1,21 @@
+<mat-card>
+  <h2>How is your mood today?</h2>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>...</mat-label>
+    <mat-select [(value)]="mood">
+      <mat-option value="Happy">Happy</mat-option>
+      <mat-option value="Sad">Sad</mat-option>
+      <mat-option value="Neutral">Neutral</mat-option>
+      <mat-option value="Excited">Excited</mat-option>
+      <mat-option value="Stressed">Stressed</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-button (click)="close()">Skip</button>
+    <button mat-raised-button color="primary" (click)="save()">
+      Save
+    </button>
+  </div>
+</mat-card>
