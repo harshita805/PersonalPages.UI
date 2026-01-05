@@ -30,9 +30,9 @@ export class AppComponent {
   private router = inject(Router);
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
+    const token = this.auth.getToken();
     if (token) {
-      // 🔄 Restart auto logout timer after refresh
+      // Restart auto-logout timer
       (this.auth as any).startAutoLogout(token);
     }
   }

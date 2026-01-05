@@ -13,36 +13,45 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router
-  ) {}
-
-  // 🔐 LOGIN
-  login(data: any) {
-    return this.http.post<any>(`${this.baseUrl}/auth/login`, data).pipe(
-      tap(res => {
-        localStorage.setItem('token', res.token);
-        this.startAutoLogout(res.token); // ✅ START TIMER
-      })
-    );
-  }
+  ) { }
 
   // 📝 REGISTER
   register(data: any) {
     return this.http.post(`${this.baseUrl}/auth/register`, data);
   }
 
-  // 🚪 LOGOUT
+  login(data: any) {
+    return this.http.post<any>(`${this.baseUrl}/auth/login`, data).pipe(
+      tap(res => {
+        // ✅ SAVE TOKEN BASED ON USER CHOICE
+        if (data.staySignedIn) {
+          localStorage.setItem('token', res.token);
+        } else {
+          sessionStorage.setItem('token', res.token);
+        }
+
+        this.startAutoLogout(res.token);
+      })
+    );
+  }
+
   logout() {
     localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.clearLogoutTimer();
     this.router.navigate(['/login']);
   }
 
-  // ✅ CHECK LOGIN
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
   }
 
-  // ⏰ AUTO LOGOUT LOGIC
+  getToken(): string | null {
+    return localStorage.getItem('token')
+      || sessionStorage.getItem('token');
+  }
+
+  // 🔐 AUTO LOGOUT
   private startAutoLogout(token: string) {
     const expiry = this.getTokenExpiry(token);
     if (!expiry) return;
@@ -63,11 +72,10 @@ export class AuthService {
     }
   }
 
-  // 🔍 READ JWT EXP CLAIM
   private getTokenExpiry(token: string): number | null {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.exp * 1000; // convert to ms
+      return payload.exp * 1000;
     } catch {
       return null;
     }

@@ -6,7 +6,7 @@ import { LoaderService } from './loader.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const auth = inject(AuthService);
-    const token = localStorage.getItem('token');
+    const token = auth.getToken();
     const loader = inject(LoaderService);
 
     if (token) {

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ import { AuthService } from '../services/auth.service';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
-    RouterLink
+    RouterLink,
+    MatCheckboxModule
   ],
   templateUrl: './login.component.html'
 })
@@ -29,7 +31,8 @@ export class LoginComponent {
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
+    staySignedIn: [false]   // ✅ NEW
   });
 
   login() {
