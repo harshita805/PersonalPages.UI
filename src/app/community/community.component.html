@@ -1,9 +1,23 @@
-@for(post of posts;track post){
-<mat-card>
-  <h3>{{post.title}}</h3>
-  <p>{{post.content}}</p>
+<div class="page-container">
+  <mat-card class="form-card">
+    <h2>My Journals</h2>
 
-  <button mat-button>Like</button>
-  <button mat-button>Comment</button>
-</mat-card>
-}
+    @if (journals.length === 0) {
+      <p>No journal entries found.</p>
+    } @else {
+
+      @for (journal of journals;track journal) {
+        <mat-card style="margin-top:10px">
+          <h3>{{ journal.title }}</h3>
+
+          <p>{{ journal.content }}</p>
+
+          <p><strong>Mood:</strong> {{ journal.mood }}</p>
+
+          <small>{{ journal.createdAt | date:'mediumDate' }}</small>
+        </mat-card>
+      }
+
+    }
+  </mat-card>
+</div>

@@ -1,19 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { JournalService } from '../services/journal.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-community',
   standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule
-  ],
+  imports: [MatCardModule, DatePipe],
   templateUrl: './community.component.html'
 })
-export class CommunityComponent {
-  posts = [
-    { title: 'A Beautiful Day', content: 'Feeling positive today' },
-    { title: 'Poem', content: 'Words from the heart' }
-  ];
+export class CommunityComponent implements OnInit {
+
+  private journalService = inject(JournalService);
+  journals: any[] = [];
+
+  ngOnInit() {
+    this.journalService.getPublicJournals()
+      .subscribe(data => this.journals = data);
+  }
 }

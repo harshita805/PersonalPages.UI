@@ -1,15 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { JournalService } from '../services/journal.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-journals',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, DatePipe],
   templateUrl: './my-journals.component.html'
 })
-export class MyJournalsComponent {
-  journals = [
-    { title: 'My First Entry', mood: 'Happy' },
-    { title: 'Learning Angular', mood: 'Excited' }
-  ];
+export class MyJournalsComponent implements OnInit {
+
+  private journalService = inject(JournalService);
+  journals: any[] = [];
+
+  ngOnInit() {
+    this.journalService.getMyJournals()
+      .subscribe(data => this.journals = data);
+  }
 }

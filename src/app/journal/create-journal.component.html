@@ -1,34 +1,40 @@
-<mat-card>
-  <h2>New Journal Entry</h2>
+<div class="page-container">
+  <mat-card class="form-card">
+    <h2>Write Journal</h2>
 
-  <mat-form-field class="full">
-    <mat-label>Title</mat-label>
-    <input matInput>
-  </mat-form-field>
+    <form [formGroup]="journalForm" (ngSubmit)="save()">
 
-  <mat-form-field class="full">
-    <mat-label>Content</mat-label>
-    <textarea matInput rows="6"></textarea>
-  </mat-form-field>
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
 
-  <mat-form-field class="full">
-    <mat-label>Mood</mat-label>
-    <mat-select>
-      <mat-option value="happy">Happy</mat-option>
-      <mat-option value="sad">Sad</mat-option>
-      <mat-option value="neutral">Neutral</mat-option>
-      <mat-option value="excited">Excited</mat-option>
-      <mat-option value="stressed">Stressed</mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Content</mat-label>
+        <textarea matInput rows="6" formControlName="content"></textarea>
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Visibility</mat-label>
-    <mat-select>
-      <mat-option value="private">Private</mat-option>
-      <mat-option value="public">Public</mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Mood</mat-label>
+        <mat-select formControlName="mood">
+          <mat-option value="Happy">Happy</mat-option>
+          <mat-option value="Sad">Sad</mat-option>
+          <mat-option value="Neutral">Neutral</mat-option>
+          <mat-option value="Excited">Excited</mat-option>
+          <mat-option value="Stressed">Stressed</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <button mat-raised-button color="primary">Save Entry</button>
-</mat-card>
+      <mat-checkbox formControlName="isPublic">
+        Make Public
+      </mat-checkbox>
+
+      <br><br>
+
+      <button mat-raised-button color="primary" class="full">
+        Save Journal
+      </button>
+
+    </form>
+  </mat-card>
+</div>

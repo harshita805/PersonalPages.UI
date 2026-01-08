@@ -1,28 +1,23 @@
-<mat-card class="page-card">
-  <h2>My Journal Entries</h2>
+<div class="page-container">
+  <mat-card class="form-card">
+    <h2>My Journals</h2>
 
-  <!-- If no journals -->
-  @if(journals.length === 0){
-  <p>
-    You have not written any journal entries yet.
-  </p>
-  }
+    @if (journals.length === 0) {
+      <p>No journal entries found.</p>
+    } @else {
 
-  <!-- Journal list -->
-  @for(journal of journals;track journal){
-  <mat-card class="journal-card">
-    <h3>{{ journal.title }}</h3>
+      @for (journal of journals; track journal) {
+        <mat-card style="margin-top:10px">
+          <h3>{{ journal.title }}</h3>
 
-    <p>
-      <strong>Mood:</strong>
-      <span class="mood">{{ journal.mood }}</span>
-    </p>
+          <p>{{ journal.content }}</p>
 
-    <div class="actions">
-      <button mat-button color="primary">View</button>
-      <button mat-button color="accent">Edit</button>
-      <button mat-button color="warn">Delete</button>
-    </div>
+          <p><strong>Mood:</strong> {{ journal.mood }}</p>
+
+          <small>{{ journal.createdAt | date:'mediumDate' }}</small>
+        </mat-card>
+      }
+
+    }
   </mat-card>
-  }
-</mat-card>
+</div>
