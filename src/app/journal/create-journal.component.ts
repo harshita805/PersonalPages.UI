@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { JournalService } from '../services/journal.service';
 import { Router } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-create-journal',
@@ -17,7 +18,8 @@ import { Router } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatCheckboxModule
   ],
   templateUrl: './create-journal.component.html'
 })
