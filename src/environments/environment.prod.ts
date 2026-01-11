@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:53095/api'
+  apiBaseUrl: 'https://personalpages-api.codename399.com/api'
 };
