@@ -1,40 +1,51 @@
-<div class="page-container">
-  <mat-card class="form-card">
-    <h2>Write Journal</h2>
+<div class="journal-container">
 
-    <form [formGroup]="journalForm" (ngSubmit)="save()">
+  <h2>Create Journal Entry</h2>
 
-      <mat-form-field class="full" appearance="outline">
-        <mat-label>Title</mat-label>
-        <input matInput formControlName="title">
-      </mat-form-field>
+  <input type="text" placeholder="Title" [(ngModel)]="title" class="title-input" />
 
-      <mat-form-field class="full" appearance="outline">
-        <mat-label>Content</mat-label>
-        <textarea matInput rows="6" formControlName="content"></textarea>
-      </mat-form-field>
+  <textarea rows="8" placeholder="Write your thoughts..." [value]="content" (input)="onContentChange($event)">
+  </textarea>
 
-      <mat-form-field class="full" appearance="outline">
-        <mat-label>Mood</mat-label>
-        <mat-select formControlName="mood">
-          <mat-option value="Happy">Happy</mat-option>
-          <mat-option value="Sad">Sad</mat-option>
-          <mat-option value="Neutral">Neutral</mat-option>
-          <mat-option value="Excited">Excited</mat-option>
-          <mat-option value="Stressed">Stressed</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <!-- Mood Section -->
+  <div class="mood-section">
+    @if(isMoodLoading){
+    <div>🧠 Detecting mood...</div>
+    }
+    @else{
+    <div>
+      <strong>Mood:</strong>
+      <span class="mood-badge">{{ detectedMood }}</span>
+      @if(moodConfidence > 0){
+      <span>
+        ({{ moodConfidence | number:'1.0-0' }}%)
+      </span>
+      }
+    </div>
+    }
+  </div>
 
-      <mat-checkbox formControlName="isPublic">
-        Make Public
-      </mat-checkbox>
+  <!-- AI Suggestion -->
+  @if(isSuggestionLoading){
+  <div class="ai-loading">
+    🤖 Thinking...
+  </div>
+  }
 
-      <br><br>
+  @if(suggestion && !isSuggestionLoading){
+  <!-- AI Suggestion -->
+  <div class="ai-suggestion" (click)="appendSuggestion()">
 
-      <button mat-raised-button color="primary" class="full">
-        Save Journal
-      </button>
+    💡 <strong>Click to add:</strong>
 
-    </form>
-  </mat-card>
+    <p>{{ suggestion }}</p>
+
+  </div>
+
+  }
+
+  <button (click)="saveJournal()" [disabled]="isSaving">
+    {{ isSaving ? 'Saving...' : 'Save Journal' }}
+  </button>
+
 </div>

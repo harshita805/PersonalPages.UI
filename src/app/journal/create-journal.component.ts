@@ -1,48 +1,178 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { AiService } from '../services/ai.service';
 import { JournalService } from '../services/journal.service';
-import { Router } from '@angular/router';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MoodService } from '../services/mood.service';
+import { DecimalPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-journal',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatCheckboxModule
-  ],
-  templateUrl: './create-journal.component.html'
+  templateUrl: './create-journal.component.html',
+  styleUrls: ['./create-journal.component.css'],
+  imports: [DecimalPipe, FormsModule]
 })
-export class CreateJournalComponent {
+export class CreateJournalComponent implements OnInit {
 
-  private fb = inject(FormBuilder);
-  private journalService = inject(JournalService);
-  private router = inject(Router);
+  title: string = '';
+  content: string = '';
 
-  journalForm = this.fb.group({
-    title: ['', Validators.required],
-    content: ['', Validators.required],
-    mood: [''],
-    isPublic: [false]
-  });
+  // Mood
+  detectedMood: string = 'Neutral';
+  moodConfidence: number = 0;
+  isMoodLoading: boolean = false;
 
-  save() {
-    if (this.journalForm.invalid) return;
+  // AI Suggestion
+  suggestion: string = '';
+  isSuggestionLoading: boolean = false;
 
-    this.journalService.createJournal(this.journalForm.value)
-      .subscribe(() => {
-        alert('Journal saved');
-        this.router.navigate(['/journal/my']);
-      });
+  isSaving: boolean = false;
+
+  private moodSubject = new Subject<string>();
+  private suggestionSubject = new Subject<string>();
+
+  constructor(
+    private aiService: AiService,
+    private moodService: MoodService,
+    private journalService: JournalService
+  ) { }
+
+  ngOnInit(): void {
+
+    // 🔹 Real-time Mood Detection
+    this.moodSubject.pipe(
+      debounceTime(1500),
+      distinctUntilChanged()
+    ).subscribe(text => {
+      if (text.length > 10) {
+        this.fetchMood(text);
+      } else {
+        this.detectedMood = 'Neutral';
+      }
+    });
+
+    // 🔹 Real-time AI Suggestion
+    this.suggestionSubject.pipe(
+      debounceTime(2500),
+      distinctUntilChanged()
+    ).subscribe(text => {
+      if (text.length > 40) {
+        this.fetchSuggestion(text);
+      } else {
+        this.suggestion = '';
+      }
+    });
   }
+
+  onContentChange(event: any) {
+    let value = event?.target?.value;
+    this.content = value;
+    this.moodSubject.next(value);
+    this.suggestionSubject.next(value);
+  }
+
+  // ======================
+  // Mood Detection
+  // ======================
+
+  fetchMood(text: string) {
+    this.isMoodLoading = true;
+
+    this.moodService.detectMood(text).subscribe({
+      next: (res) => {
+        this.detectedMood = res.mood || 'Neutral';
+        this.moodConfidence = res.confidence || 0;
+        this.isMoodLoading = false;
+      },
+      error: () => {
+        this.detectedMood = 'Neutral';
+        this.isMoodLoading = false;
+      }
+    });
+  }
+
+  // ======================
+  // AI Suggestion
+  // ======================
+
+  fetchSuggestion(text: string) {
+    this.isSuggestionLoading = true;
+
+    this.aiService.getSuggestion(text).subscribe({
+      next: (res) => {
+        this.suggestion = res.suggestion;
+        this.isSuggestionLoading = false;
+      },
+      error: () => {
+        this.suggestion = '';
+        this.isSuggestionLoading = false;
+      }
+    });
+  }
+
+  acceptSuggestion() {
+    if (this.suggestion) {
+      this.content += ' ' + this.suggestion;
+      this.suggestion = '';
+    }
+  }
+
+  // ======================
+  // Save Journal
+  // ======================
+
+  saveJournal() {
+
+    if (!this.title || !this.content) {
+      alert('Title and content are required.');
+      return;
+    }
+
+    this.isSaving = true;
+
+    const journalData = {
+      title: this.title,
+      content: this.content,
+      mood: this.detectedMood,
+      moodConfidence: this.moodConfidence
+    };
+
+    this.journalService.createJournal(journalData).subscribe({
+      next: () => {
+        alert('Journal saved successfully!');
+        this.title = '';
+        this.content = '';
+        this.suggestion = '';
+        this.detectedMood = 'Neutral';
+        this.isSaving = false;
+      },
+      error: () => {
+        alert('Error saving journal.');
+        this.isSaving = false;
+      }
+    });
+  }
+
+  appendSuggestion() {
+
+  if (!this.suggestion) return;
+
+  // Avoid duplicate append
+  if (!this.content.includes(this.suggestion)) {
+
+    // Add proper spacing
+    if (this.content.trim().length > 0) {
+      this.content += '\n\n' + this.suggestion;
+    } else {
+      this.content = this.suggestion;
+    }
+  }
+
+  // Clear suggestion after use
+  this.suggestion = '';
+
+  // Optional: trigger mood update again
+  this.moodSubject.next(this.content);
+}
 }
