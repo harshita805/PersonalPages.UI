@@ -1,20 +1,33 @@
-<div class="page-container">
-  <mat-card class="form-card">
-    <h2>My Journals</h2>
+@for(post of posts;track post){
+<div class="post-card">
 
-    @if (journals.length === 0) {
-    <p>No journal entries found.</p>
-    } @else {
+  <div class="post-header">
+    <h3>{{ post.title }}</h3>
 
-    @for (journal of journals;track journal) {
-    <mat-card>
-      <h3>{{ journal.title }}</h3>
-      <p>{{ journal.content }}</p>
-      <p><strong>By:</strong> {{ journal.fullName }}</p>
-      <small>{{ journal.createdAt | date }}</small>
-    </mat-card>
-    }
+    <div class="post-meta">
+      🧑 {{ post.authorName }}
+      &nbsp; | &nbsp;
+      📅 {{ post.createdAt | date:'medium' }}
+    </div>
+  </div>
 
-    }
-  </mat-card>
+  <p class="post-preview">
+    {{ post.content | slice:0:200 }}...
+  </p>
+
+  <div class="engagement-bar">
+    <button (click)="likePost(post)">
+      ❤️ {{ post.likeCount }}
+    </button>
+
+    <span>
+      👁 {{ post.viewCount }}
+    </span>
+
+    <span>
+      💬 {{ commentsMap[post.id]?.length || 0 }}
+    </span>
+  </div>
+
 </div>
+}

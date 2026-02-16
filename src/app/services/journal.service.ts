@@ -7,7 +7,7 @@ export class JournalService {
 
   private baseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   createJournal(data: any) {
     return this.http.post(`${this.baseUrl}/journal`, data);
@@ -19,5 +19,21 @@ export class JournalService {
 
   getPublicJournals() {
     return this.http.get<any[]>(`${this.baseUrl}/journal/public`);
+  }
+
+  getJournal(id: number) {
+    return this.http.get<any>(`${this.baseUrl}/journal/${id}`);
+  }
+
+  likeJournal(id: number) {
+    return this.http.post<any>(`${this.baseUrl}/journal/${id}/like`, {});
+  }
+
+  addComment(id: number, content: string) {
+    return this.http.post(`${this.baseUrl}/journal/${id}/comment`, { content });
+  }
+
+  getComments(id: number) {
+    return this.http.get<any[]>(`${this.baseUrl}/journal/${id}/comments`);
   }
 }
