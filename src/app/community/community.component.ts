@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { JournalService } from '../services/journal.service';
 import { DatePipe, SlicePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
   styleUrls: ['./community.component.css'],
-  imports: [SlicePipe, DatePipe]
+  imports: [SlicePipe, DatePipe, FormsModule]
 })
 export class CommunityComponent implements OnInit {
 
   posts: any[] = [];
-  commentInputs: { [key: number]: string } = {};
+
+  // Store comments per post
   commentsMap: { [key: number]: any[] } = {};
+
+  // Store comment input per post
+  commentInputs: { [key: number]: string } = {};
+
+  // Toggle comment section
+  showComments: { [key: number]: boolean } = {};
 
   constructor(private journalService: JournalService) { }
 
@@ -20,7 +28,6 @@ export class CommunityComponent implements OnInit {
     this.loadPosts();
   }
 
-  // 🔹 Load all journals
   loadPosts() {
     this.journalService.getPublicJournals()
       .subscribe(res => {
@@ -28,15 +35,21 @@ export class CommunityComponent implements OnInit {
       });
   }
 
-  // 🔹 Like from community page
   likePost(post: any) {
-    this.journalService.likeJournal(post.id)
+    this.journalService.likeJournal(post.journalId)
       .subscribe(res => {
         post.likeCount = res.likeCount;
       });
   }
 
-  // 🔹 Load comments for a post
+  toggleComments(postId: number) {
+    this.showComments[postId] = !this.showComments[postId];
+
+    if (this.showComments[postId]) {
+      this.loadComments(postId);
+    }
+  }
+
   loadComments(postId: number) {
     this.journalService.getComments(postId)
       .subscribe(res => {
@@ -44,17 +57,19 @@ export class CommunityComponent implements OnInit {
       });
   }
 
-  // 🔹 Add comment inline
   addComment(post: any) {
 
-    const content = this.commentInputs[post.id];
+    const content = this.commentInputs[post.journalId];
     if (!content || !content.trim()) return;
 
-    this.journalService.addComment(post.id, content)
+    this.journalService.addComment(post.journalId, content)
       .subscribe(() => {
-        this.commentInputs[post.id] = '';
-        this.loadComments(post.id);
+
+        // Clear input
+        this.commentInputs[post.journalId] = '';
+
+        // Reload comments
+        this.loadComments(post.journalId);
       });
   }
-
 }
