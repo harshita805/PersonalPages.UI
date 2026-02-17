@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { JournalService } from '../services/journal.service';
-import { DatePipe, SlicePipe } from '@angular/common';
+import { CommonModule, DatePipe, SlicePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
   styleUrls: ['./community.component.css'],
-  imports: [SlicePipe, DatePipe, FormsModule]
+  imports: [CommonModule, SlicePipe, DatePipe, FormsModule]
 })
 export class CommunityComponent implements OnInit {
 
@@ -71,5 +71,17 @@ export class CommunityComponent implements OnInit {
         // Reload comments
         this.loadComments(post.journalId);
       });
+  }
+
+  getMoodEmoji(mood: string): string {
+    switch (mood?.toLowerCase()) {
+      case 'happy': return '😊';
+      case 'sad': return '😢';
+      case 'angry': return '😡';
+      case 'anxious': return '😰';
+      case 'excited': return '🤩';
+      case 'calm': return '😌';
+      default: return '🙂';
+    }
   }
 }

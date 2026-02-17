@@ -1,19 +1,27 @@
 <div class="community-container">
 
-  <h2>Community</h2>
-
   @for(post of posts;track post){
   <div class="post-card">
 
     <!-- Header -->
     <div class="post-header">
-      <h3>{{ post.title }}</h3>
+      <div class="title-section">
+        <h3>{{ post.title }}</h3>
 
-      <div class="post-meta">
-        🧑 {{ post.authorName }}
-        &nbsp; | &nbsp;
-        📅 {{ post.createdAt | date:'medium' }}
+        <div class="post-meta">
+          🧑 {{ post.authorName }}
+          &nbsp; | &nbsp;
+          📅 {{ post.createdAt | date:'medium' }}
+        </div>
       </div>
+
+      <!-- ✅ Mood Badge -->
+      @if(post.mood){
+      <div class="mood-badge" [ngClass]="post.mood.toLowerCase()">
+        {{ getMoodEmoji(post.mood) }} {{ post.mood }}
+      </div>
+      }
+
     </div>
 
     <!-- Content -->
@@ -31,10 +39,6 @@
       <button (click)="toggleComments(post.journalId)">
         💬 {{ post.commentCount || 0 }}
       </button>
-<!-- 
-      <span>
-        👁 {{ post.viewCount }}
-      </span> -->
 
     </div>
 
@@ -42,13 +46,11 @@
     @if(showComments[post.journalId]){
     <div class="comment-section">
 
-      <!-- Add Comment -->
       <div class="comment-input">
         <input [(ngModel)]="commentInputs[post.journalId]" placeholder="Write a comment..." />
         <button (click)="addComment(post)">Post</button>
       </div>
 
-      <!-- Comment List -->
       @for(comment of commentsMap[post.journalId];track comment){
       <div class="comment-item">
         {{ comment.content }}
@@ -60,7 +62,6 @@
 
     </div>
     }
-
 
   </div>
   }
