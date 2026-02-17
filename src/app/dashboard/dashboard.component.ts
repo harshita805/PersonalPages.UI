@@ -12,6 +12,7 @@ import { CommunityComponent } from '../community/community.component';
     MatButtonModule,
     CommunityComponent
   ],
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
+  styleUrl:'./dashboard.component.css'
 })
 export class DashboardComponent { }

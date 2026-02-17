@@ -21,7 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     RouterLink,
     MatCheckboxModule
   ],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
 

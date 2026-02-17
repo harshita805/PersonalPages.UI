@@ -22,7 +22,8 @@ import { UserService } from '../services/user.service';
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
 

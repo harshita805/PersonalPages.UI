@@ -4,14 +4,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AiService } from '../services/ai.service';
 import { JournalService } from '../services/journal.service';
 import { MoodService } from '../services/mood.service';
-import { DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-journal',
   templateUrl: './create-journal.component.html',
   styleUrls: ['./create-journal.component.css'],
-  imports: [DecimalPipe, FormsModule]
+  imports: [CommonModule, DecimalPipe, FormsModule]
 })
 export class CreateJournalComponent implements OnInit {
 
@@ -156,23 +156,35 @@ export class CreateJournalComponent implements OnInit {
 
   appendSuggestion() {
 
-  if (!this.suggestion) return;
+    if (!this.suggestion) return;
 
-  // Avoid duplicate append
-  if (!this.content.includes(this.suggestion)) {
+    // Avoid duplicate append
+    if (!this.content.includes(this.suggestion)) {
 
-    // Add proper spacing
-    if (this.content.trim().length > 0) {
-      this.content += '\n\n' + this.suggestion;
-    } else {
-      this.content = this.suggestion;
+      // Add proper spacing
+      if (this.content.trim().length > 0) {
+        this.content += '\n\n' + this.suggestion;
+      } else {
+        this.content = this.suggestion;
+      }
     }
+
+    // Clear suggestion after use
+    this.suggestion = '';
+
+    // Optional: trigger mood update again
+    this.moodSubject.next(this.content);
   }
 
-  // Clear suggestion after use
-  this.suggestion = '';
-
-  // Optional: trigger mood update again
-  this.moodSubject.next(this.content);
-}
+  getMoodEmoji(mood: string): string {
+    switch (mood?.toLowerCase()) {
+      case 'happy': return '😊';
+      case 'sad': return '😢';
+      case 'angry': return '😡';
+      case 'anxious': return '😰';
+      case 'excited': return '🤩';
+      case 'calm': return '😌';
+      default: return '🙂';
+    }
+  }
 }

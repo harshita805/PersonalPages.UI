@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { LoaderComponent } from './shared/loader.component';
-import { AuthService } from './services/auth.service';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Router, RouterOutlet } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { LoaderComponent } from './shared/loader.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    MatDividerModule,
     RouterOutlet,
     MatToolbarModule,
     LoaderComponent,

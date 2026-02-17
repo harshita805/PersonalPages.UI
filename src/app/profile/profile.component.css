@@ -1,0 +1,67 @@
+/* Page Background */
+.profile-wrapper {
+  min-height: 100vh;
+  background: #f4f7fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Card */
+.profile-card {
+  width: 100%;
+  max-width: 550px;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.profile-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Header */
+.profile-header {
+  margin-bottom: 25px;
+}
+
+.profile-header h2 {
+  margin-bottom: 5px;
+}
+
+.profile-header p {
+  color: gray;
+  font-size: 14px;
+}
+
+/* Form Fields */
+.full {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Save Button */
+.save-btn {
+  width: 100%;
+  margin-top: 10px;
+  height: 45px;
+  border-radius: 10px !important;
+  font-weight: 500;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(78,115,223,0.3);
+}
+
+/* Responsive */
+@media(max-width:768px) {
+  .profile-card {
+    padding: 25px;
+  }
+}

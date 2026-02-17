@@ -1,61 +1,134 @@
-.journal-container {
-  max-width: 650px;
-  margin: auto;
-  padding: 20px;
+/* Wrapper */
+.journal-wrapper {
+  min-height: 100vh;
+  background: #f4f7fb;
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
 }
 
-.input-field,
-.textarea-field {
+/* Main Card */
+.journal-card {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  max-width: 750px;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
-.checkbox-label {
-  display: block;
-  margin-bottom: 15px;
+.journal-card h2 {
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.title-input,
+textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.title-input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4e73df;
+  box-shadow: 0 0 0 3px rgba(78,115,223,0.15);
+}
+
+/* Mood Section */
+.mood-section {
+  margin-bottom: 20px;
 }
 
 .mood-loading {
-  color: #666;
+  color: #4e73df;
+  font-weight: 500;
+}
+
+.mood-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mood-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Mood Colors */
+.mood-badge.happy { background: #e6f9f0; color: #1cc88a; }
+.mood-badge.sad { background: #eaf2ff; color: #4e73df; }
+.mood-badge.angry { background: #ffe6e6; color: #e74a3b; }
+.mood-badge.anxious { background: #fff4e6; color: #f39c12; }
+.mood-badge.excited { background: #fceaff; color: #9b59b6; }
+.mood-badge.calm { background: #eef9ff; color: #17a2b8; }
+
+.confidence {
+  font-size: 12px;
+  color: gray;
+}
+
+/* AI Loading */
+.ai-loading {
+  margin: 15px 0;
+  color: #6c757d;
   font-style: italic;
-  margin-bottom: 10px;
 }
 
-.mood-result {
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: #f0f4ff;
-  border-radius: 6px;
-  font-weight: bold;
-}
-
-.save-btn {
-  padding: 10px 20px;
-  border: none;
-  background-color: #3f51b5;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
+/* AI Suggestion */
 .ai-suggestion {
-  margin-top: 15px;
-  padding: 14px;
-  background-color: #eef2ff;
-  border-left: 4px solid #3f51b5;
-  border-radius: 8px;
+  background: #f8f9fc;
+  padding: 18px;
+  border-radius: 15px;
+  margin-bottom: 25px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: 0.3s;
+  border-left: 4px solid #4e73df;
 }
 
 .ai-suggestion:hover {
-  background-color: #dde3ff;
-  transform: scale(1.01);
+  background: #eef2ff;
 }
 
 .ai-suggestion p {
-  margin: 8px 0 0 0;
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+/* Save Button */
+.save-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #4e73df;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #2e59d9;
+}
+
+.save-btn:disabled {
+  background: #b0b8d9;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .journal-card {
+    padding: 25px;
+  }
 }

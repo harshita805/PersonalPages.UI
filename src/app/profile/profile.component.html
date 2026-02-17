@@ -1,6 +1,11 @@
-<div class="page-container">
-  <mat-card class="form-card">
-    <h2>Edit Profile</h2>
+<div class="profile-wrapper">
+
+  <div class="profile-card">
+
+    <div class="profile-header">
+      <h2>Edit Profile</h2>
+      <p>Update your personal information</p>
+    </div>
 
     <form [formGroup]="profileForm" (ngSubmit)="save()">
 
@@ -25,10 +30,15 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        class="save-btn">
         Save Changes
       </button>
 
     </form>
-  </mat-card>
+
+  </div>
+
 </div>

@@ -1,0 +1,71 @@
+/* Toolbar Base */
+.main-toolbar {
+  height: 65px;
+  padding: 0 25px;
+  background: linear-gradient(135deg, #4e73df, #1cc88a);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logo-section:hover {
+  opacity: 0.85;
+}
+
+.logo-icon {
+  font-size: 24px;
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Spacer */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Actions */
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Icon Buttons */
+.icon-btn {
+  color: white;
+  transition: 0.3s;
+}
+
+.icon-btn:hover {
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+}
+
+/* Primary Action Highlight */
+.primary-action {
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+}
+
+/* Menu Customization */
+::ng-deep .account-menu .mat-mdc-menu-panel {
+  border-radius: 15px !important;
+  padding: 5px 0;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  gap: 10px;
+  font-size: 14px;
+}

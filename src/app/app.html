@@ -1,35 +1,59 @@
-<mat-toolbar color="primary">
-    <span class="cursor-pointer" (click)="goToDashboard()">Personal Pages</span>
+<mat-toolbar class="main-toolbar">
 
-    <span class="spacer"></span>
+  <!-- Logo / Title -->
+  <div class="logo-section" (click)="goToDashboard()">
+    <mat-icon class="logo-icon">auto_stories</mat-icon>
+    <span class="app-title">Personal Pages</span>
+  </div>
 
-    <!-- Show only when logged in -->
-    @if(auth.isLoggedIn()){
-    <ng-container>
-        <!-- ✅ Write Entry button -->
-        <button mat-icon-button class="icon-btn" (click)="goToCreateJournal()" matTooltip="Write Entry">
-            <mat-icon>edit</mat-icon>
-        </button>
+  <span class="spacer"></span>
 
-        <!-- ⋮ Three-dot menu icon -->
-        <button mat-icon-button [matMenuTriggerFor]="accountMenu" matTooltip="Account options">
-            <mat-icon>more_vert</mat-icon>
-        </button>
+  @if(auth.isLoggedIn()){
+  <div class="toolbar-actions">
 
-        <mat-menu #accountMenu="matMenu">
-            <button mat-menu-item (click)="goToProfile()">
-                Edit Profile
-            </button>
-            <button mat-menu-item (click)="goToMyJournals()">
-                My Journals
-            </button>
-            <button mat-menu-item (click)="logout()">
-                Logout
-            </button>
-        </mat-menu>
+    <!-- Write Entry -->
+    <button 
+      mat-icon-button 
+      class="icon-btn primary-action"
+      (click)="goToCreateJournal()" 
+      matTooltip="Write Journal">
 
-    </ng-container>
-    }
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <!-- Account Menu -->
+    <button 
+      mat-icon-button 
+      [matMenuTriggerFor]="accountMenu" 
+      matTooltip="Account">
+
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #accountMenu="matMenu" class="account-menu">
+
+      <button mat-menu-item (click)="goToProfile()">
+        <mat-icon>person</mat-icon>
+        <span>Edit Profile</span>
+      </button>
+
+      <button mat-menu-item (click)="goToMyJournals()">
+        <mat-icon>menu_book</mat-icon>
+        <span>My Journals</span>
+      </button>
+
+      <mat-divider></mat-divider>
+
+      <button mat-menu-item (click)="logout()">
+        <mat-icon color="warn">logout</mat-icon>
+        <span>Logout</span>
+      </button>
+
+    </mat-menu>
+
+  </div>
+  }
+
 </mat-toolbar>
 
 <!-- Global Loader -->

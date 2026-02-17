@@ -1,51 +1,78 @@
-<div class="journal-container">
+<div class="journal-wrapper">
 
-  <h2>Create Journal Entry</h2>
+  <div class="journal-card">
 
-  <input type="text" placeholder="Title" [(ngModel)]="title" class="title-input" />
+    <h2>Create Journal Entry</h2>
 
-  <textarea rows="8" placeholder="Write your thoughts..." [value]="content" (input)="onContentChange($event)">
-  </textarea>
+    <!-- Title -->
+    <input 
+      type="text" 
+      placeholder="Title" 
+      [(ngModel)]="title" 
+      class="title-input" 
+    />
 
-  <!-- Mood Section -->
-  <div class="mood-section">
-    @if(isMoodLoading){
-    <div>🧠 Detecting mood...</div>
-    }
-    @else{
-    <div>
-      <strong>Mood:</strong>
-      <span class="mood-badge">{{ detectedMood }}</span>
-      @if(moodConfidence > 0){
-      <span>
-        ({{ moodConfidence | number:'1.0-0' }}%)
-      </span>
+    <!-- Content -->
+    <textarea 
+      rows="8" 
+      placeholder="Write your thoughts..." 
+      [value]="content" 
+      (input)="onContentChange($event)">
+    </textarea>
+
+    <!-- Mood Section -->
+    <div class="mood-section">
+
+      @if(isMoodLoading){
+        <div class="mood-loading">
+          🧠 Detecting mood...
+        </div>
       }
+
+      @else{
+        <div class="mood-display">
+          <strong>Mood:</strong>
+
+          <span 
+            class="mood-badge" 
+            [ngClass]="detectedMood.toLowerCase()">
+            {{ getMoodEmoji(detectedMood) }} {{ detectedMood }}
+          </span>
+
+          @if(moodConfidence > 0){
+            <span class="confidence">
+              {{ moodConfidence | number:'1.0-0' }}%
+            </span>
+          }
+        </div>
+      }
+
     </div>
+
+    <!-- AI Suggestion -->
+    @if(isSuggestionLoading){
+      <div class="ai-loading">
+        🤖 Thinking...
+      </div>
     }
+
+    @if(suggestion && !isSuggestionLoading){
+      <div class="ai-suggestion" (click)="appendSuggestion()">
+        💡 <strong>Click to add suggestion</strong>
+        <p>{{ suggestion }}</p>
+      </div>
+    }
+
+    <!-- Save Button -->
+    <button 
+      class="save-btn"
+      (click)="saveJournal()" 
+      [disabled]="isSaving">
+
+      {{ isSaving ? 'Saving...' : 'Save Journal' }}
+
+    </button>
+
   </div>
-
-  <!-- AI Suggestion -->
-  @if(isSuggestionLoading){
-  <div class="ai-loading">
-    🤖 Thinking...
-  </div>
-  }
-
-  @if(suggestion && !isSuggestionLoading){
-  <!-- AI Suggestion -->
-  <div class="ai-suggestion" (click)="appendSuggestion()">
-
-    💡 <strong>Click to add:</strong>
-
-    <p>{{ suggestion }}</p>
-
-  </div>
-
-  }
-
-  <button (click)="saveJournal()" [disabled]="isSaving">
-    {{ isSaving ? 'Saving...' : 'Save Journal' }}
-  </button>
 
 </div>

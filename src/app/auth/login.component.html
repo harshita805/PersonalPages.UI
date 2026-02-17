@@ -1,8 +1,14 @@
-<div class="page-container">
-  <mat-card class="form-card">
-    <h2>User Login</h2>
+<div class="auth-wrapper">
+
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <h2>Welcome Back 👋</h2>
+      <p>Login to continue to Personal Pages</p>
+    </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
+
       <mat-form-field class="full" appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput formControlName="email">
@@ -13,18 +19,26 @@
         <input matInput type="password" formControlName="password">
       </mat-form-field>
 
-      <mat-checkbox formControlName="staySignedIn">
-        Stay signed in
-      </mat-checkbox>
+      <div class="checkbox-row">
+        <mat-checkbox formControlName="staySignedIn">
+          Stay signed in
+        </mat-checkbox>
+      </div>
 
-      <button mat-raised-button color="primary" class="full">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        class="login-btn">
         Login
       </button>
 
     </form>
 
     <div class="link-text">
-      New user? <a routerLink="/register">Register</a>
+      New user?
+      <a routerLink="/register">Create an account</a>
     </div>
-  </mat-card>
+
+  </div>
+
 </div>

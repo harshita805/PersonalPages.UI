@@ -1,6 +1,11 @@
-<div class="page-container">
-  <mat-card class="form-card">
-    <h2>User Registration</h2>
+<div class="auth-wrapper">
+
+  <div class="auth-card">
+
+    <div class="auth-header">
+      <h2>Create Account ✨</h2>
+      <p>Join Personal Pages and start journaling</p>
+    </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="register()">
 
@@ -14,9 +19,28 @@
         <input matInput formControlName="email">
       </mat-form-field>
 
+      <!-- Password -->
       <mat-form-field class="full" appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password">
+        @if(registerForm.get('password')?.hasError('required')){
+        <mat-error>Password is required</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Confirm Password -->
+      <mat-form-field class="full" appearance="outline">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="confirmPassword">
+
+        @if(registerForm.get('confirmPassword')?.hasError('required')){
+        <mat-error>Confirm password is required</mat-error>
+        }
+
+        @if(registerForm.hasError('passwordMismatch')
+        && registerForm.get('confirmPassword')?.touched){
+        <mat-error>Passwords do not match</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field class="full" appearance="outline">
@@ -35,13 +59,18 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full">
+      <button mat-raised-button color="primary" class="register-btn" [disabled]="!registerForm.valid">
         Register
       </button>
+
+
     </form>
 
     <div class="link-text">
-      Already registered? <a routerLink="/login">Login</a>
+      Already registered?
+      <a routerLink="/login">Login here</a>
     </div>
-  </mat-card>
+
+  </div>
+
 </div>
