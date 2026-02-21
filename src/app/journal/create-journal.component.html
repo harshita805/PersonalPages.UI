@@ -5,69 +5,78 @@
     <h2>Create Journal Entry</h2>
 
     <!-- Title -->
-    <input 
-      type="text" 
-      placeholder="Title" 
-      [(ngModel)]="title" 
-      class="title-input" 
-    />
+    <input type="text" placeholder="Title" [(ngModel)]="title" class="title-input" />
 
     <!-- Content -->
-    <textarea 
-      rows="8" 
-      placeholder="Write your thoughts..." 
-      [value]="content" 
-      (input)="onContentChange($event)">
+    <textarea rows="8" placeholder="Write your thoughts..." [value]="content" (input)="onContentChange($event)">
     </textarea>
+
+    <!-- Visibility Section -->
+    <div class="visibility-section">
+
+      <div class="visibility-header">
+        <strong>Visibility</strong>
+      </div>
+
+      <div class="visibility-toggle">
+
+        <label class="toggle-label">
+          <input type="checkbox" [(ngModel)]="isPublic" class="toggle-input">
+
+          <span class="toggle-slider"></span>
+        </label>
+
+        <span class="visibility-text">
+          {{ isPublic ? '🌍 Public (Visible in Community)' : '🔒 Private (Only You)' }}
+        </span>
+
+      </div>
+
+    </div>
 
     <!-- Mood Section -->
     <div class="mood-section">
 
       @if(isMoodLoading){
-        <div class="mood-loading">
-          🧠 Detecting mood...
-        </div>
+      <div class="mood-loading">
+        🧠 Detecting mood...
+      </div>
       }
 
       @else{
-        <div class="mood-display">
-          <strong>Mood:</strong>
+      <div class="mood-display">
+        <strong>Mood:</strong>
 
-          <span 
-            class="mood-badge" 
-            [ngClass]="detectedMood.toLowerCase()">
-            {{ getMoodEmoji(detectedMood) }} {{ detectedMood }}
-          </span>
+        <span class="mood-badge" [ngClass]="detectedMood.toLowerCase()">
+          {{ getMoodEmoji(detectedMood) }} {{ detectedMood }}
+        </span>
 
-          @if(moodConfidence > 0){
-            <span class="confidence">
-              {{ moodConfidence | number:'1.0-0' }}%
-            </span>
-          }
-        </div>
+        @if(moodConfidence > 0){
+        <span class="confidence">
+          {{ moodConfidence | number:'1.0-0' }}%
+        </span>
+        }
+      </div>
       }
 
     </div>
 
     <!-- AI Suggestion -->
     @if(isSuggestionLoading){
-      <div class="ai-loading">
-        🤖 Thinking...
-      </div>
+    <div class="ai-loading">
+      🤖 Thinking...
+    </div>
     }
 
     @if(suggestion && !isSuggestionLoading){
-      <div class="ai-suggestion" (click)="appendSuggestion()">
-        💡 <strong>Click to add suggestion</strong>
-        <p>{{ suggestion }}</p>
-      </div>
+    <div class="ai-suggestion" (click)="appendSuggestion()">
+      💡 <strong>Click to add suggestion</strong>
+      <p>{{ suggestion }}</p>
+    </div>
     }
 
     <!-- Save Button -->
-    <button 
-      class="save-btn"
-      (click)="saveJournal()" 
-      [disabled]="isSaving">
+    <button class="save-btn" (click)="saveJournal()" [disabled]="isSaving">
 
       {{ isSaving ? 'Saving...' : 'Save Journal' }}
 

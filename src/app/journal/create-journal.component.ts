@@ -26,6 +26,7 @@ export class CreateJournalComponent implements OnInit {
   // AI Suggestion
   suggestion: string = '';
   isSuggestionLoading: boolean = false;
+  isPublic: boolean = false; // default private
 
   isSaving: boolean = false;
 
@@ -135,7 +136,8 @@ export class CreateJournalComponent implements OnInit {
       title: this.title,
       content: this.content,
       mood: this.detectedMood,
-      moodConfidence: this.moodConfidence
+      moodConfidence: this.moodConfidence,
+      isPublic: this.isPublic
     };
 
     this.journalService.createJournal(journalData).subscribe({
