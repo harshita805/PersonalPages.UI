@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Journal } from '../model/journal';
 import { JournalService } from '../services/journal.service';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
@@ -27,8 +28,7 @@ export class CommunityComponent implements OnInit {
   loading = false;
   searchTerm = '';
   private searchTimeout: any;
-  private baseMediaUrl = 'http://localhost:5110/';
-
+  private baseMediaUrl = environment.baseUrl;
   constructor(private journalService: JournalService) { }
 
   ngOnInit(): void {

@@ -4,6 +4,7 @@ import { JournalService } from '../services/journal.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Journal } from '../model/journal';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-my-journals',
@@ -24,8 +25,8 @@ export class MyJournalsComponent implements OnInit {
   loading = false;
   searchTerm = '';
   private searchTimeout: any;
-  private baseMediaUrl = 'http://localhost:5110/';
-
+  private baseMediaUrl = environment.baseUrl;
+  
   ngOnInit() {
     this.loadJournals();
   }
