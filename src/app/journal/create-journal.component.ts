@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AiService } from '../services/ai.service';
 import { JournalService } from '../services/journal.service';
 import { MoodService } from '../services/mood.service';
@@ -58,25 +58,56 @@ export class CreateJournalComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // 🔹 Mood Detection
     this.moodSubject.pipe(
       debounceTime(1500),
-      distinctUntilChanged()
-    ).subscribe(text => {
-      if (text.length > 10) {
-        this.fetchMood(text);
-      } else {
-        this.detectedMood = 'Neutral';
+      distinctUntilChanged(),
+      switchMap(text => {
+
+        if (text.length <= 10) {
+          this.detectedMood = 'Neutral';
+          return [];
+        }
+
+        this.isMoodLoading = true;
+        return this.moodService.detectMood(text);
+      })
+    ).subscribe({
+      next: (res: any) => {
+        if (!res) return;
+
+        this.detectedMood = res.mood || 'Neutral';
+        this.moodConfidence = res.confidence || 0;
+        this.isMoodLoading = false;
+      },
+      error: () => {
+        this.isMoodLoading = false;
       }
     });
 
+    // 🔹 Suggestion
     this.suggestionSubject.pipe(
       debounceTime(2500),
-      distinctUntilChanged()
-    ).subscribe(text => {
-      if (text.length > 40) {
-        this.fetchSuggestion(text);
-      } else {
-        this.suggestion = '';
+      distinctUntilChanged(),
+      switchMap(text => {
+
+        if (text.length <= 40) {
+          this.suggestion = '';
+          return [];
+        }
+
+        this.isSuggestionLoading = true;
+        return this.aiService.getSuggestion(text);
+      })
+    ).subscribe({
+      next: (res: any) => {
+        if (!res) return;
+
+        this.suggestion = res.suggestion;
+        this.isSuggestionLoading = false;
+      },
+      error: () => {
+        this.isSuggestionLoading = false;
       }
     });
   }

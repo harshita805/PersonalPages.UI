@@ -76,13 +76,6 @@
     <!-- Mood Section -->
     <div class="mood-section">
 
-      @if(isMoodLoading){
-      <div class="mood-loading">
-        🧠 Detecting mood...
-      </div>
-      }
-
-      @else{
       <div class="mood-display">
         <strong>Mood:</strong>
 
@@ -95,24 +88,35 @@
           {{ moodConfidence | number:'1.0-0' }}%
         </span>
         }
+
+        <!-- 🔥 Small Loader -->
+        @if(isMoodLoading){
+        <span class="mini-loader"></span>
+        }
+
       </div>
-      }
 
     </div>
 
     <!-- AI Suggestion -->
-    @if(isSuggestionLoading){
-    <div class="ai-loading">
-      🤖 Thinking...
-    </div>
-    }
+    <div class="ai-suggestion-wrapper">
 
-    @if(suggestion && !isSuggestionLoading){
-    <div class="ai-suggestion" (click)="appendSuggestion()">
-      💡 <strong>Click to add suggestion</strong>
-      <p>{{ suggestion }}</p>
+      @if(suggestion){
+      <div class="ai-suggestion" (click)="appendSuggestion()">
+        💡 <strong>Click to add suggestion</strong>
+        <p>{{ suggestion }}</p>
+      </div>
+      }
+
+      <!-- 🔥 Small Loader -->
+      @if(isSuggestionLoading){
+      <div class="ai-mini-loader">
+        <span class="mini-loader"></span>
+        <span class="thinking-text">Thinking...</span>
+      </div>
+      }
+
     </div>
-    }
 
     <!-- Save Button -->
     <button class="save-btn" (click)="saveJournal()" [disabled]="isSaving">

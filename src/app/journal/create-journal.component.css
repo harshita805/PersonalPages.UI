@@ -253,3 +253,33 @@ textarea:focus {
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+/* =============================
+   Mini Loader Spinner
+============================= */
+
+.mini-loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-top: 2px solid #4a90e2;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+.ai-mini-loader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: #666;
+  font-size: 14px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
