@@ -2,43 +2,62 @@
 
   <h2>My Journals</h2>
 
-  @if (journals.length === 0) {
-    <p class="empty-text">No journal entries found.</p>
+  @if (journals.length === 0 && !loading) {
+  <p class="empty-text">No journal entries found.</p>
   } @else {
 
-    @for (journal of journals; track journal) {
+  @for (journal of journals; track journal) {
 
-      <div class="post-card">
+  <div class="post-card">
 
-        <!-- Header -->
-        <div class="post-header">
-          <div class="title-section">
-            <h3>{{ journal.title }}</h3>
+    <!-- Header -->
+    <div class="post-header">
+      <div class="title-section">
+        <h3>{{ journal.title }}</h3>
 
-            <div class="post-meta">
-              🧑 {{ journal.fullName }}
-              &nbsp; | &nbsp;
-              📅 {{ journal.createdAt | date:'medium' }}
-            </div>
-          </div>
-
-          <!-- Mood Badge -->
-          @if(journal.mood){
-          <div class="mood-badge" [ngClass]="journal.mood.toLowerCase()">
-            {{ getMoodEmoji(journal.mood) }} {{ journal.mood }}
-          </div>
-          }
-
+        <div class="post-meta">
+          🧑 {{ journal.fullName }}
+          &nbsp; | &nbsp;
+          📅 {{ journal.createdAt | date:'medium' }}
         </div>
-
-        <!-- Content -->
-        <p class="post-preview">
-          {{ journal.content }}
-        </p>
-
       </div>
 
+      @if(journal.mood){
+      <div class="mood-badge" [ngClass]="journal.mood.toLowerCase()">
+        {{ getMoodEmoji(journal.mood) }} {{ journal.mood }}
+      </div>
+      }
+
+    </div>
+
+    <!-- Content -->
+    <p class="post-preview">
+      {{ journal.content }}
+    </p>
+
+  </div>
+  }
+
+  <!-- ✅ Load More Section -->
+  <div class="load-more-container">
+
+    @if(hasMore){
+    <button class="load-more-btn" (click)="loadJournals()" [disabled]="loading">
+
+      @if(loading){
+      Loading...
+      } @else {
+      Load More
+      }
+
+    </button>
     }
+
+    @if(!hasMore && journals.length > 0){
+    <p class="end-message">No more journals</p>
+    }
+
+  </div>
   }
 
 </div>

@@ -95,3 +95,20 @@
     gap: 10px;
   }
 }
+
+.load-more-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.load-more-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.end-message {
+  color: gray;
+  font-size: 14px;
+}

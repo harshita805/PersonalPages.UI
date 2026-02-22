@@ -66,4 +66,23 @@
   </div>
   }
 
+  <div class="load-more-container">
+
+    @if(hasMore){
+    <button class="load-more-btn" (click)="loadPosts()" [disabled]="loading">
+
+      @if(loading){
+      Loading...
+      } @else {
+      Load More
+      }
+
+    </button>
+    }
+
+    @if(!hasMore){
+    <p class="end-message">No more posts</p>
+    }
+
+  </div>
 </div>

@@ -11,8 +11,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class CommunityComponent implements OnInit {
 
-  posts: any[] = [];
-
   // Store comments per post
   commentsMap: { [key: number]: any[] } = {};
 
@@ -21,6 +19,12 @@ export class CommunityComponent implements OnInit {
 
   // Toggle comment section
   showComments: { [key: number]: boolean } = {};
+  posts: any[] = [];
+  page = 1;
+  pageSize = 5;
+  totalRecords = 0;
+  hasMore = true;
+  loading = false;
 
   constructor(private journalService: JournalService) { }
 
@@ -29,11 +33,30 @@ export class CommunityComponent implements OnInit {
   }
 
   loadPosts() {
-    this.journalService.getPublicJournals()
-      .subscribe(res => {
-        this.posts = res;
-      });
-  }
+  if (this.loading || !this.hasMore) return;
+
+  this.loading = true;
+
+  this.journalService
+    .getPublicJournals(this.page, this.pageSize)
+    .subscribe({
+      next: (res) => {
+        // Append new data
+        this.posts = [...this.posts, ...res.data];
+
+        this.totalRecords = res.totalRecords;
+
+        // Check if more data exists
+        this.hasMore = this.posts.length < this.totalRecords;
+
+        this.page++;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
+    });
+}
 
   likePost(post: any) {
     this.journalService.likeJournal(post.journalId)

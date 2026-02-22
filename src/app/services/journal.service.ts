@@ -13,12 +13,16 @@ export class JournalService {
     return this.http.post(`${this.baseUrl}/journal`, data);
   }
 
-  getMyJournals() {
-    return this.http.get<any[]>(`${this.baseUrl}/journal/my`);
+  getMyJournals(page: number, pageSize: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/journal/my?page=${page}&pageSize=${pageSize}`
+    );
   }
 
-  getPublicJournals() {
-    return this.http.get<any[]>(`${this.baseUrl}/journal/public`);
+  getPublicJournals(page: number, pageSize: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/journal/public?page=${page}&pageSize=${pageSize}`
+    );
   }
 
   getJournal(id: number) {

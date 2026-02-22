@@ -15,10 +15,42 @@ export class MyJournalsComponent implements OnInit {
   private journalService = inject(JournalService);
   journals: any[] = [];
 
+  page = 1;
+  pageSize = 5;
+  totalRecords = 0;
+  hasMore = true;
+  loading = false;
+
   ngOnInit() {
-    this.journalService.getMyJournals()
-      .subscribe(data => this.journals = data);
-  }
+  this.loadJournals();
+}
+
+loadJournals() {
+  if (this.loading || !this.hasMore) return;
+
+  this.loading = true;
+
+  this.journalService
+    .getMyJournals(this.page, this.pageSize)
+    .subscribe({
+      next: (res) => {
+
+        // Append results
+        this.journals = [...this.journals, ...res.data];
+
+        this.totalRecords = res.totalRecords;
+
+        // Check if more records exist
+        this.hasMore = this.journals.length < this.totalRecords;
+
+        this.page++;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
+    });
+}
 
   getMoodEmoji(mood: string): string {
     switch (mood?.toLowerCase()) {
