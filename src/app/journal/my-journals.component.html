@@ -21,7 +21,7 @@
         <h3>{{ journal.title }}</h3>
 
         <div class="post-meta">
-          🧑 {{ journal.fullName }}
+          🧑 {{ journal.authorName }}
           &nbsp; | &nbsp;
           📅 {{ journal.createdAt | date:'medium' }}
         </div>
@@ -37,9 +37,31 @@
 
     <!-- Content -->
     <p class="post-preview">
-      {{ journal.content }}
+      {{ journal.content | slice:0:200 }}...
     </p>
 
+    <!-- 🔥 Media Section -->
+    @if(journal.media && journal.media.length > 0){
+    <div class="post-media">
+
+      @for(file of journal.media; track file){
+
+      <!-- Image -->
+      @if(file.fileType.startsWith('image/')){
+      <img [src]="getMediaUrl(file.filePath)" class="media-img" />
+      }
+
+      <!-- Video -->
+      @if(file.fileType.startsWith('video/')){
+      <video controls class="media-video">
+        <source [src]="getMediaUrl(file.filePath)" />
+      </video>
+      }
+
+      }
+
+    </div>
+    }
   </div>
   }
 

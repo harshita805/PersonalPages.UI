@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AiService } from '../services/ai.service';
@@ -6,14 +6,17 @@ import { JournalService } from '../services/journal.service';
 import { MoodService } from '../services/mood.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-journal',
   templateUrl: './create-journal.component.html',
   styleUrls: ['./create-journal.component.css'],
+  standalone: true,
   imports: [CommonModule, DecimalPipe, FormsModule]
 })
 export class CreateJournalComponent implements OnInit {
+  #router = inject(Router);
 
   title: string = '';
   content: string = '';
@@ -26,9 +29,19 @@ export class CreateJournalComponent implements OnInit {
   // AI Suggestion
   suggestion: string = '';
   isSuggestionLoading: boolean = false;
-  isPublic: boolean = false; // default private
 
+  // Visibility
+  isPublic: boolean = false;
+
+  // Saving
   isSaving: boolean = false;
+
+  // 🔥 Media Upload
+  selectedFiles: {
+    file: File;
+    preview: string;
+    type: string;
+  }[] = [];
 
   private moodSubject = new Subject<string>();
   private suggestionSubject = new Subject<string>();
@@ -39,9 +52,12 @@ export class CreateJournalComponent implements OnInit {
     private journalService: JournalService
   ) { }
 
+  // ======================
+  // INIT
+  // ======================
+
   ngOnInit(): void {
 
-    // 🔹 Real-time Mood Detection
     this.moodSubject.pipe(
       debounceTime(1500),
       distinctUntilChanged()
@@ -53,7 +69,6 @@ export class CreateJournalComponent implements OnInit {
       }
     });
 
-    // 🔹 Real-time AI Suggestion
     this.suggestionSubject.pipe(
       debounceTime(2500),
       distinctUntilChanged()
@@ -66,11 +81,58 @@ export class CreateJournalComponent implements OnInit {
     });
   }
 
+  // ======================
+  // Content Change
+  // ======================
+
   onContentChange(event: any) {
-    let value = event?.target?.value;
+    const value = event?.target?.value || '';
     this.content = value;
+
     this.moodSubject.next(value);
     this.suggestionSubject.next(value);
+  }
+
+  // ======================
+  // Media Upload
+  // ======================
+
+  onFileSelected(event: any) {
+
+    const files: FileList = event.target.files;
+
+    if (!files) return;
+
+    for (let i = 0; i < files.length; i++) {
+
+      const file = files[i];
+
+      // Optional: Limit file size (5MB example)
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`${file.name} exceeds 5MB limit`);
+        continue;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.selectedFiles.push({
+          file: file,
+          preview: e.target.result,
+          type: file.type
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    // Reset input so same file can be re-selected
+    event.target.value = '';
+  }
+
+  removeFile(fileToRemove: any) {
+    this.selectedFiles =
+      this.selectedFiles.filter(f => f !== fileToRemove);
   }
 
   // ======================
@@ -78,6 +140,7 @@ export class CreateJournalComponent implements OnInit {
   // ======================
 
   fetchMood(text: string) {
+
     this.isMoodLoading = true;
 
     this.moodService.detectMood(text).subscribe({
@@ -98,6 +161,7 @@ export class CreateJournalComponent implements OnInit {
   // ======================
 
   fetchSuggestion(text: string) {
+
     this.isSuggestionLoading = true;
 
     this.aiService.getSuggestion(text).subscribe({
@@ -112,15 +176,26 @@ export class CreateJournalComponent implements OnInit {
     });
   }
 
-  acceptSuggestion() {
-    if (this.suggestion) {
-      this.content += ' ' + this.suggestion;
-      this.suggestion = '';
+  appendSuggestion() {
+
+    if (!this.suggestion) return;
+
+    if (!this.content.includes(this.suggestion)) {
+
+      if (this.content.trim().length > 0) {
+        this.content += '\n\n' + this.suggestion;
+      } else {
+        this.content = this.suggestion;
+      }
     }
+
+    this.suggestion = '';
+
+    this.moodSubject.next(this.content);
   }
 
   // ======================
-  // Save Journal
+  // Save Journal (UPDATED)
   // ======================
 
   saveJournal() {
@@ -132,22 +207,33 @@ export class CreateJournalComponent implements OnInit {
 
     this.isSaving = true;
 
-    const journalData = {
-      title: this.title,
-      content: this.content,
-      mood: this.detectedMood,
-      moodConfidence: this.moodConfidence,
-      isPublic: this.isPublic
-    };
+    const formData = new FormData();
 
-    this.journalService.createJournal(journalData).subscribe({
+    formData.append('title', this.title);
+    formData.append('content', this.content);
+    formData.append('mood', this.detectedMood);
+    formData.append('moodConfidence', this.moodConfidence.toString());
+    formData.append('isPublic', this.isPublic.toString());
+
+    // Append media files
+    this.selectedFiles.forEach(item => {
+      formData.append('files', item.file);
+    });
+
+    this.journalService.createJournal(formData).subscribe({
       next: () => {
+
         alert('Journal saved successfully!');
+
+        // Reset form
         this.title = '';
         this.content = '';
         this.suggestion = '';
         this.detectedMood = 'Neutral';
+        this.selectedFiles = [];
         this.isSaving = false;
+
+        this.#router.navigate(['/dashboard']);
       },
       error: () => {
         alert('Error saving journal.');
@@ -156,29 +242,12 @@ export class CreateJournalComponent implements OnInit {
     });
   }
 
-  appendSuggestion() {
-
-    if (!this.suggestion) return;
-
-    // Avoid duplicate append
-    if (!this.content.includes(this.suggestion)) {
-
-      // Add proper spacing
-      if (this.content.trim().length > 0) {
-        this.content += '\n\n' + this.suggestion;
-      } else {
-        this.content = this.suggestion;
-      }
-    }
-
-    // Clear suggestion after use
-    this.suggestion = '';
-
-    // Optional: trigger mood update again
-    this.moodSubject.next(this.content);
-  }
+  // ======================
+  // Mood Emoji
+  // ======================
 
   getMoodEmoji(mood: string): string {
+
     switch (mood?.toLowerCase()) {
       case 'happy': return '😊';
       case 'sad': return '😢';

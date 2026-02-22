@@ -183,3 +183,28 @@
 .search-bar button {
   padding: 8px 15px;
 }
+
+.post-media {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.media-img {
+  width: 150px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.media-img:hover {
+  transform: scale(1.05);
+}
+
+.media-video {
+  width: 220px;
+  border-radius: 8px;
+}

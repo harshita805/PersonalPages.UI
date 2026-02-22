@@ -11,6 +11,45 @@
     <textarea rows="8" placeholder="Write your thoughts..." [value]="content" (input)="onContentChange($event)">
     </textarea>
 
+    <!-- Media Upload Section -->
+    <div class="media-section">
+
+      <strong>Attach Media</strong>
+
+      <input type="file" multiple accept="image/*,video/*" (change)="onFileSelected($event)" />
+
+      <!-- Preview Section -->
+      @if(selectedFiles.length > 0){
+      <div class="media-preview">
+
+        @for(file of selectedFiles; track file){
+
+        <div class="media-item">
+
+          <!-- Image Preview -->
+          @if(file.type.startsWith('image/')){
+          <img [src]="file.preview" />
+          }
+
+          <!-- Video Preview -->
+          @if(file.type.startsWith('video/')){
+          <video controls>
+            <source [src]="file.preview" />
+          </video>
+          }
+
+          <button class="remove-btn" (click)="removeFile(file)">
+            ✖
+          </button>
+
+        </div>
+        }
+
+      </div>
+      }
+
+    </div>
+
     <!-- Visibility Section -->
     <div class="visibility-section">
 

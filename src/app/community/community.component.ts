@@ -27,6 +27,7 @@ export class CommunityComponent implements OnInit {
   loading = false;
   searchTerm = '';
   private searchTimeout: any;
+  private baseMediaUrl = 'http://localhost:5110/';
 
   constructor(private journalService: JournalService) { }
 
@@ -126,5 +127,9 @@ export class CommunityComponent implements OnInit {
     this.hasMore = true;
 
     this.loadPosts();
+  }
+
+  getMediaUrl(path: string): string {
+    return this.baseMediaUrl + path.replace(/\\/g, '/');
   }
 }

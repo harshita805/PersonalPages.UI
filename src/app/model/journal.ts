@@ -1,3 +1,9 @@
+export interface JournalMedia {
+  id: number;
+  filePath: string;
+  fileType: string;
+}
+
 export interface Journal {
   journalId: number;
   title: string;
@@ -7,4 +13,6 @@ export interface Journal {
   authorName: string;
   likeCount: number;
   commentCount: number;
+
+  media?: JournalMedia[];   // 🔥 ADD THIS
 }

@@ -1,278 +1,255 @@
-/* =========================
-   PAGE WRAPPER
-========================= */
+/* =============================
+   Wrapper Layout
+============================= */
+
 .journal-wrapper {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f4f7fb 0%, #eef2ff 100%);
-  padding: 60px 20px;
+  background: linear-gradient(135deg, #f5f7fa, #e8eef5);
   display: flex;
   justify-content: center;
+  padding: 40px 20px;
 }
 
-/* =========================
-   MAIN CARD
-========================= */
 .journal-card {
   width: 100%;
   max-width: 750px;
   background: #ffffff;
-  padding: 45px;
-  border-radius: 22px;
-  box-shadow: 0 18px 45px rgba(0,0,0,0.08);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: 0.3s ease;
 }
 
-.journal-card h2 {
-  margin-bottom: 30px;
-  font-size: 24px;
+.journal-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+h2 {
+  margin-bottom: 25px;
   font-weight: 600;
 }
 
-/* =========================
-   INPUTS
-========================= */
-.title-input,
+/* =============================
+   Inputs
+============================= */
+
+.title-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  transition: 0.2s;
+}
+
+.title-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
 textarea {
   width: 100%;
-  padding: 15px 18px;
-  border-radius: 14px;
+  padding: 14px;
+  border-radius: 12px;
   border: 1px solid #ddd;
-  margin-bottom: 20px;
+  resize: none;
   font-size: 15px;
-  transition: all 0.3s ease;
-  resize: vertical;
+  transition: 0.2s;
+  margin-bottom: 20px;
 }
 
-.title-input:focus,
 textarea:focus {
   outline: none;
-  border-color: #4e73df;
-  box-shadow: 0 0 0 4px rgba(78,115,223,0.12);
+  border-color: #4a90e2;
 }
 
-/* =========================
-   MOOD SECTION
-========================= */
-.mood-section {
-  margin-bottom: 25px;
+/* =============================
+   Media Section
+============================= */
+
+.media-section {
+  margin-bottom: 20px;
 }
 
-.mood-loading {
-  color: #4e73df;
-  font-weight: 500;
+.media-section strong {
+  display: block;
+  margin-bottom: 8px;
 }
 
-.mood-display {
+.media-section input[type="file"] {
+  margin-bottom: 12px;
+}
+
+.media-preview {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-.mood-badge {
-  padding: 6px 14px;
-  border-radius: 25px;
-  font-size: 13px;
-  font-weight: 500;
+.media-item {
+  position: relative;
 }
 
-.confidence {
-  font-size: 12px;
-  color: #777;
+.media-item img,
+.media-item video {
+  width: 140px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
 }
 
-/* =========================
-   AI SUGGESTION
-========================= */
-.ai-loading {
-  margin-bottom: 20px;
-  font-style: italic;
-  color: #777;
-}
-
-.ai-suggestion {
-  background: #f8f9fc;
-  border-left: 4px solid #4e73df;
-  padding: 18px;
-  border-radius: 15px;
-  margin-bottom: 30px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.ai-suggestion:hover {
-  background: #eef2ff;
-  transform: translateY(-2px);
-}
-
-.ai-suggestion p {
-  margin-top: 8px;
-  line-height: 1.6;
-}
-
-/* =========================
-   SAVE BUTTON
-========================= */
-.save-btn {
-  width: 100%;
-  padding: 15px;
-  border-radius: 14px;
+.remove-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ff4d4d;
   border: none;
-  background: #4e73df;
   color: white;
-  font-size: 15px;
-  font-weight: 500;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
   cursor: pointer;
-  transition: 0.3s ease;
 }
 
-.save-btn:hover:not(:disabled) {
-  background: #2e59d9;
-  transform: translateY(-2px);
-}
+/* =============================
+   Visibility Toggle
+============================= */
 
-.save-btn:disabled {
-  background: #b0b8d9;
-  cursor: not-allowed;
-}
-
-@media (max-width: 1024px) {
-
-  .journal-wrapper {
-    padding: 40px 15px;
-  }
-
-  .journal-card {
-    padding: 35px;
-  }
-
-}
-
-@media (max-width: 768px) {
-
-  .journal-wrapper {
-    padding: 30px 12px;
-  }
-
-  .journal-card {
-    padding: 25px;
-    border-radius: 18px;
-  }
-
-  .journal-card h2 {
-    font-size: 20px;
-  }
-
-  .title-input,
-  textarea {
-    font-size: 14px;
-    padding: 12px;
-  }
-
-  .save-btn {
-    font-size: 14px;
-    padding: 13px;
-  }
-
-}
-
-@media (max-width: 480px) {
-
-  .journal-wrapper {
-    padding: 20px 10px;
-  }
-
-  .journal-card {
-    padding: 20px;
-    border-radius: 15px;
-  }
-
-  .journal-card h2 {
-    font-size: 18px;
-  }
-
-  .mood-display {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .save-btn {
-    padding: 12px;
-  }
-
-}
-
-/* =========================
-   VISIBILITY SECTION
-========================= */
 .visibility-section {
   margin-bottom: 25px;
-  padding: 15px 18px;
-  background: #f8f9fc;
-  border-radius: 15px;
-}
-
-.visibility-header {
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: #444;
 }
 
 .visibility-toggle {
   display: flex;
   align-items: center;
   gap: 15px;
-  flex-wrap: wrap;
 }
 
-/* Toggle Switch */
 .toggle-label {
   position: relative;
-  width: 45px;
-  height: 24px;
-  display: inline-block;
+  width: 50px;
+  height: 25px;
 }
 
 .toggle-input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none;
 }
 
 .toggle-slider {
   position: absolute;
   cursor: pointer;
   background-color: #ccc;
-  border-radius: 34px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  border-radius: 50px;
+  width: 100%;
+  height: 100%;
   transition: 0.3s;
 }
 
-.toggle-slider:before {
-  position: absolute;
+.toggle-slider::before {
   content: "";
-  height: 18px;
-  width: 18px;
+  position: absolute;
+  height: 19px;
+  width: 19px;
   left: 3px;
-  bottom: 3px;
+  top: 3px;
   background-color: white;
   border-radius: 50%;
   transition: 0.3s;
 }
 
 .toggle-input:checked + .toggle-slider {
-  background-color: #4e73df;
+  background-color: #4a90e2;
 }
 
-.toggle-input:checked + .toggle-slider:before {
-  transform: translateX(21px);
+.toggle-input:checked + .toggle-slider::before {
+  transform: translateX(24px);
 }
 
-/* Visibility Text */
 .visibility-text {
   font-size: 14px;
   font-weight: 500;
+}
+
+/* =============================
+   Mood Section
+============================= */
+
+.mood-section {
+  margin-bottom: 20px;
+}
+
+.mood-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mood-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  background: #eef2f7;
+}
+
+.confidence {
+  font-size: 13px;
+  color: #777;
+}
+
+.mood-loading {
+  color: #888;
+}
+
+/* =============================
+   AI Suggestion
+============================= */
+
+.ai-suggestion {
+  background: #f0f7ff;
+  border-left: 4px solid #4a90e2;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ai-suggestion:hover {
+  background: #e6f1ff;
+}
+
+.ai-loading {
+  color: #888;
+  margin-bottom: 15px;
+}
+
+/* =============================
+   Save Button
+============================= */
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #4a90e2, #357ab8);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.save-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

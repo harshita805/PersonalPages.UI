@@ -9,8 +9,11 @@ export class JournalService {
 
   constructor(private http: HttpClient) { }
 
-  createJournal(data: any) {
-    return this.http.post(`${this.baseUrl}/journal`, data);
+  createJournal(formData: FormData) {
+    return this.http.post(
+      `${this.baseUrl}/journal`,
+      formData
+    );
   }
 
   getMyJournals(page: number, pageSize: number, search: string = '') {

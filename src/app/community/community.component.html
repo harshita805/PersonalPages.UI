@@ -34,6 +34,29 @@
       {{ post.content | slice:0:200 }}...
     </p>
 
+    <!-- 🔥 Media Section -->
+    @if(post.media && post.media.length > 0){
+    <div class="post-media">
+
+      @for(file of post.media; track file){
+
+      <!-- Image -->
+      @if(file.fileType.startsWith('image/')){
+      <img [src]="getMediaUrl(file.filePath)" class="media-img" />
+      }
+
+      <!-- Video -->
+      @if(file.fileType.startsWith('video/')){
+      <video controls class="media-video">
+        <source [src]="getMediaUrl(file.filePath)" />
+      </video>
+      }
+
+      }
+
+    </div>
+    }
+
     <!-- Engagement -->
     <div class="engagement-bar">
 

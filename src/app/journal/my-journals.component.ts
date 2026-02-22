@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { JournalService } from '../services/journal.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Journal } from '../model/journal';
 
 @Component({
   selector: 'app-my-journals',
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class MyJournalsComponent implements OnInit {
 
   private journalService = inject(JournalService);
-  journals: any[] = [];
+  journals: Journal[] = [];
 
   page = 1;
   pageSize = 5;
@@ -23,6 +24,7 @@ export class MyJournalsComponent implements OnInit {
   loading = false;
   searchTerm = '';
   private searchTimeout: any;
+  private baseMediaUrl = 'http://localhost:5110/';
 
   ngOnInit() {
     this.loadJournals();
@@ -86,5 +88,9 @@ export class MyJournalsComponent implements OnInit {
     this.hasMore = true;
 
     this.loadJournals();
+  }
+
+  getMediaUrl(path: string): string {
+    return this.baseMediaUrl + path.replace(/\\/g, '/');
   }
 }
