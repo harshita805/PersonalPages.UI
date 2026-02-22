@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { JournalService } from '../services/journal.service';
 import { CommonModule, DatePipe, SlicePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { Journal } from '../model/journal';
+import { JournalService } from '../services/journal.service';
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
@@ -19,12 +19,14 @@ export class CommunityComponent implements OnInit {
 
   // Toggle comment section
   showComments: { [key: number]: boolean } = {};
-  posts: any[] = [];
+  posts: Journal[] = [];
   page = 1;
   pageSize = 5;
   totalRecords = 0;
   hasMore = true;
   loading = false;
+  searchTerm = '';
+  private searchTimeout: any;
 
   constructor(private journalService: JournalService) { }
 
@@ -33,30 +35,26 @@ export class CommunityComponent implements OnInit {
   }
 
   loadPosts() {
-  if (this.loading || !this.hasMore) return;
+    if (this.loading || !this.hasMore) return;
 
-  this.loading = true;
+    this.loading = true;
 
-  this.journalService
-    .getPublicJournals(this.page, this.pageSize)
-    .subscribe({
-      next: (res) => {
-        // Append new data
-        this.posts = [...this.posts, ...res.data];
+    this.journalService
+      .getPublicPosts(this.page, this.pageSize, this.searchTerm)
+      .subscribe({
+        next: (res) => {
 
-        this.totalRecords = res.totalRecords;
+          this.posts = [...this.posts, ...res.data];
+          this.totalRecords = res.totalRecords;
 
-        // Check if more data exists
-        this.hasMore = this.posts.length < this.totalRecords;
+          this.hasMore = this.posts.length < this.totalRecords;
 
-        this.page++;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      }
-    });
-}
+          this.page++;
+          this.loading = false;
+        },
+        error: () => this.loading = false
+      });
+  }
 
   likePost(post: any) {
     this.journalService.likeJournal(post.journalId)
@@ -106,5 +104,27 @@ export class CommunityComponent implements OnInit {
       case 'calm': return '😌';
       default: return '🙂';
     }
+  }
+
+  onSearchChange(value: string) {
+    this.searchTerm = value;
+
+    // Clear previous timer
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    // Wait 500ms after typing stops
+    this.searchTimeout = setTimeout(() => {
+      this.resetAndSearch();
+    }, 500);
+  }
+
+  resetAndSearch() {
+    this.page = 1;
+    this.posts = [];
+    this.hasMore = true;
+
+    this.loadPosts();
   }
 }

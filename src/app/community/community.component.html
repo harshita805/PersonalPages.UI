@@ -1,5 +1,10 @@
 <div class="community-container">
 
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)"
+      placeholder="Search journals..." />
+  </div>
+
   @for(post of posts;track post){
   <div class="post-card">
 

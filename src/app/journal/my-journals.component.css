@@ -16,7 +16,7 @@
   padding: 25px;
   border-radius: 15px;
   margin-bottom: 25px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   transition: 0.3s;
 }
 
@@ -111,4 +111,13 @@
 .end-message {
   color: gray;
   font-size: 14px;
+}
+
+.search-bar {
+  margin: 15px 0;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px;
 }

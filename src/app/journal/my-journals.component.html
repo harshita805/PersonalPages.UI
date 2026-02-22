@@ -6,6 +6,11 @@
   <p class="empty-text">No journal entries found.</p>
   } @else {
 
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)"
+      placeholder="Search my journals..." />
+  </div>
+
   @for (journal of journals; track journal) {
 
   <div class="post-card">

@@ -13,15 +13,15 @@ export class JournalService {
     return this.http.post(`${this.baseUrl}/journal`, data);
   }
 
-  getMyJournals(page: number, pageSize: number) {
+  getMyJournals(page: number, pageSize: number, search: string = '') {
     return this.http.get<any>(
-      `${this.baseUrl}/journal/my?page=${page}&pageSize=${pageSize}`
+      `${this.baseUrl}/journal/my?page=${page}&pageSize=${pageSize}&search=${search}`
     );
   }
 
-  getPublicJournals(page: number, pageSize: number) {
+  getPublicPosts(page: number, pageSize: number, search: string = '') {
     return this.http.get<any>(
-      `${this.baseUrl}/journal/public?page=${page}&pageSize=${pageSize}`
+      `${this.baseUrl}/journal/public?page=${page}&pageSize=${pageSize}&search=${search}`
     );
   }
 
