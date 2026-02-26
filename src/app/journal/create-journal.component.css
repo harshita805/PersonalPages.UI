@@ -7,17 +7,22 @@
   background: linear-gradient(135deg, #f5f7fa, #e8eef5);
   display: flex;
   justify-content: center;
-  padding: 40px 20px;
+  align-items: flex-start;
+  padding: 40px 16px;
+  /* reduced horizontal padding */
+  box-sizing: border-box;
 }
 
 .journal-card {
   width: 100%;
   max-width: 750px;
   background: #ffffff;
-  padding: 30px;
+  padding: 40px;
+  /* increase from 30px */
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: 0.3s ease;
+  box-sizing: border-box;
 }
 
 .journal-card:hover {
@@ -85,6 +90,8 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .media-item {
@@ -93,11 +100,12 @@ textarea:focus {
 
 .media-item img,
 .media-item video {
-  width: 140px;
-  height: 110px;
+  width: 120px;
+  /* reduced from 140px */
+  height: 100px;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
 }
 
 .remove-btn {
@@ -160,11 +168,11 @@ textarea:focus {
   transition: 0.3s;
 }
 
-.toggle-input:checked + .toggle-slider {
+.toggle-input:checked+.toggle-slider {
   background-color: #4a90e2;
 }
 
-.toggle-input:checked + .toggle-slider::before {
+.toggle-input:checked+.toggle-slider::before {
   transform: translateX(24px);
 }
 
@@ -246,7 +254,7 @@ textarea:focus {
 
 .save-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
 .save-btn:disabled {
@@ -282,4 +290,25 @@ textarea:focus {
   to {
     transform: rotate(360deg);
   }
+}
+
+@media (max-width: 768px) {
+  .journal-wrapper {
+    padding: 25px 12px;
+  }
+
+  .journal-card {
+    padding: 25px;
+  }
+}
+
+.title-input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  /* important */
+}
+
+.journal-card>* {
+  margin-bottom: 20px;
 }
