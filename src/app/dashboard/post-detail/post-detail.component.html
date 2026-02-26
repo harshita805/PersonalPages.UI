@@ -22,9 +22,10 @@
     </div>
 
     <!-- Media -->
-    <div *ngIf="post.media?.length > 0" class="post-media">
-
-      <ng-container *ngFor="let file of post.media">
+    @if(post.media && post.media.length > 0){
+    <div class="post-media">
+      @for(file of post.media; track file){
+      <ng-container>
 
         <img *ngIf="file.fileType.startsWith('image/')" [src]="getMediaUrl(file.filePath)" class="media-img" />
 
@@ -33,8 +34,9 @@
         </video>
 
       </ng-container>
-
+      }
     </div>
+    }
 
     <!-- Like -->
     <div class="engagement-bar">
