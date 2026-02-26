@@ -68,6 +68,9 @@
         💬 {{ post.commentCount || 0 }}
       </button>
 
+      <button class="share-btn" (click)="sharePost(post, $event)">
+        🔗 <span>Share</span>
+      </button>
     </div>
 
     <!-- Comment Section -->

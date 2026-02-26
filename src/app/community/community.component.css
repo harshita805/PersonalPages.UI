@@ -230,3 +230,31 @@
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
+
+/* ===============================
+   SHARE BUTTON
+================================ */
+
+.engagement-bar .share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-color);
+}
+
+.engagement-bar .share-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Optional subtle highlight color */
+.engagement-bar .share-btn:hover span {
+  color: var(--primary-color);
+}
+
+.engagement-bar .share-btn {
+  transition: 0.2s ease;
+}
+
+.engagement-bar .share-btn:hover {
+  transform: scale(1.05);
+}

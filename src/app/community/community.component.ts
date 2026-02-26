@@ -142,4 +142,24 @@ export class CommunityComponent implements OnInit {
 
     window.open(url, '_blank');
   }
+
+  sharePost(post: any, event: Event) {
+
+  // Prevent post card click
+  event.stopPropagation();
+
+  const postUrl = `${window.location.origin}/post/${post.journalId}`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: post.title,
+      text: post.content?.slice(0, 100),
+      url: postUrl
+    }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(postUrl).then(() => {
+      alert('Link copied to clipboard!');
+    });
+  }
+}
 }
