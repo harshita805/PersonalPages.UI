@@ -134,7 +134,7 @@ export class CommunityComponent implements OnInit {
   }
 
   getMediaUrl(path: string): string {
-    return this.baseMediaUrl + path.replace(/\\/g, '/');
+    return this.baseMediaUrl + "/" + path.replace(/\\/g, '/');
   }
 
   openPost(postId: number) {
