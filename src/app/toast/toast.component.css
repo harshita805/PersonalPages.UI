@@ -1,19 +1,25 @@
 /* ===============================
-   GLOBAL TOAST
+   GLOBAL TOAST - TOP CENTER
 ================================ */
 
 .custom-toast {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  padding: 1rem 1.5rem;
+  top: 2rem;                 /* 🔥 moved to top */
+  left: 50%;                 /* center horizontally */
+  transform: translateX(-50%);
+  
+  padding: 1rem 1.8rem;
   border-radius: 0.8rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: white;
+  font-weight: 500;
+
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease;
+  animation: slideDown 0.3s ease;
   z-index: 3000;
-  min-width: 220px;
+
+  min-width: 260px;
+  text-align: center;
 }
 
 /* Types */
@@ -29,23 +35,24 @@
   background: #2196f3;
 }
 
-/* Animation */
-@keyframes slideUp {
+/* Slide from top animation */
+@keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate(-50%, -20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
   .custom-toast {
-    right: 1rem;
-    left: 1rem;
-    text-align: center;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1.2rem;
   }
 }
