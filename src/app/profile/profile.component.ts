@@ -10,6 +10,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { UserService } from '../services/user.service';
 import { ThemeService } from '../services/theme.service';
 import { PreferenceService } from '../services/preference.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,6 +34,7 @@ export class ProfileComponent implements OnInit {
   private userService = inject(UserService);
   #themeService = inject(ThemeService);
   #preferenceService = inject(PreferenceService);
+  #alertService = inject(AlertService);
 
   profileForm = this.fb.group({
     fullName: ['', Validators.required],
@@ -81,7 +83,7 @@ export class ProfileComponent implements OnInit {
 
     this.#preferenceService.savePreferences(prefs)
       .subscribe(() => {
-        alert('Preferences saved successfully');
+        this.#alertService.show('Preferences saved successfully');
       });
   }
 

@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
+  #alertService = inject(AlertService);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -42,7 +44,7 @@ export class LoginComponent {
     this.auth.login(this.loginForm.value)
       .subscribe({
         next: () => this.router.navigate(['/community']),
-        error: err => alert(err.error)
+        error: err => this.#alertService.show(err.error)
       });
   }
 }

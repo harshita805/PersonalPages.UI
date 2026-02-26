@@ -5,6 +5,7 @@ import { Journal } from '../../model/journal';
 import { JournalService } from '../../services/journal.service';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { AlertService } from '../../services/alert.service';
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
 export class CommunityComponent implements OnInit {
   #journalService = inject(JournalService);
   #router = inject(Router);
+  #alertService = inject(AlertService);
 
   // Store comments per post
   commentsMap: { [key: number]: any[] } = {};
@@ -158,7 +160,7 @@ export class CommunityComponent implements OnInit {
       }).catch(() => { });
     } else {
       navigator.clipboard.writeText(postUrl).then(() => {
-        alert('Link copied to clipboard!');
+        this.#alertService.show('Link copied to clipboard!');
       });
     }
   }

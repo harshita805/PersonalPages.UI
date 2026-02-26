@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -33,6 +34,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
+  #alertService = inject(AlertService);
 
   registerForm = this.fb.group({
     fullName: ['', Validators.required],
@@ -54,11 +56,11 @@ export class RegisterComponent {
     this.auth.register(formData)
       .subscribe({
         next: () => {
-          alert('Registration successful');
+          this.#alertService.show('Registration successful');
           this.router.navigate(['/login']);
         },
         error: (err) => {
-          alert(err.error);
+          this.#alertService.show(err.error);
           console.log(err);
         }
       });

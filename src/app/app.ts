@@ -9,7 +9,8 @@ import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './loader/loader.component';
 import { ThemeService } from './services/theme.service';
 import { PreferenceService } from './services/preference.service';
-import { BackButtonComponent } from './back/back-button.component';
+import { BackButtonComponent } from './back-button/back-button.component';
+import { ToastComponent } from './toast/toast.component';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ import { BackButtonComponent } from './back/back-button.component';
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    BackButtonComponent
+    BackButtonComponent,
+    ToastComponent
   ],
   templateUrl: './app.html',
   styles: [`

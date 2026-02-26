@@ -7,6 +7,7 @@ import { MoodService } from '../services/mood.service';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-create-journal',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 })
 export class CreateJournalComponent implements OnInit {
   #router = inject(Router);
+  #alertService = inject(AlertService);
 
   title: string = '';
   content: string = '';
@@ -140,7 +142,7 @@ export class CreateJournalComponent implements OnInit {
 
       // Optional: Limit file size (5MB example)
       if (file.size > 5 * 1024 * 1024) {
-        alert(`${file.name} exceeds 5MB limit`);
+        this.#alertService.show(`${file.name} exceeds 5MB limit`);
         continue;
       }
 
@@ -232,7 +234,7 @@ export class CreateJournalComponent implements OnInit {
   saveJournal() {
 
     if (!this.title || !this.content) {
-      alert('Title and content are required.');
+      this.#alertService.show('Title and content are required.');
       return;
     }
 
@@ -254,7 +256,7 @@ export class CreateJournalComponent implements OnInit {
     this.journalService.createJournal(formData).subscribe({
       next: () => {
 
-        alert('Journal saved successfully!');
+        this.#alertService.show('Journal saved successfully!');
 
         // Reset form
         this.title = '';
@@ -267,7 +269,7 @@ export class CreateJournalComponent implements OnInit {
         this.#router.navigate(['/community']);
       },
       error: () => {
-        alert('Error saving journal.');
+        this.#alertService.show('Error saving journal.');
         this.isSaving = false;
       }
     });

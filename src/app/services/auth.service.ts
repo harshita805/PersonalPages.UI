@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { AlertService } from './alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
+  #alertService = inject(AlertService);
   private baseUrl = environment.apiBaseUrl;
   private logoutTimer: any;
 
@@ -59,7 +60,7 @@ export class AuthService {
     const timeout = expiry - Date.now();
     if (timeout > 0) {
       this.logoutTimer = setTimeout(() => {
-        alert('Session expired. Please login again.');
+        this.#alertService.show('Session expired. Please login again.');
         this.logout();
       }, timeout);
     }

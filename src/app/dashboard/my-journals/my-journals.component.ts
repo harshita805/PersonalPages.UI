@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Journal } from '../../model/journal';
 import { JournalService } from '../../services/journal.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-my-journals',
@@ -17,6 +18,8 @@ export class MyJournalsComponent implements OnInit {
 
   #journalService = inject(JournalService);
   #router = inject(Router);
+  #alertService = inject(AlertService);
+
   posts: Journal[] = [];
 
   page = 1;
@@ -104,7 +107,7 @@ export class MyJournalsComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-    sharePost(post: any, event: Event) {
+  sharePost(post: any, event: Event) {
 
     // Prevent post card click
     event.stopPropagation();
@@ -119,7 +122,7 @@ export class MyJournalsComponent implements OnInit {
       }).catch(() => { });
     } else {
       navigator.clipboard.writeText(postUrl).then(() => {
-        alert('Link copied to clipboard!');
+        this.#alertService.show('Link copied to clipboard!');
       });
     }
   }
