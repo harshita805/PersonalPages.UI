@@ -258,3 +258,11 @@
 .engagement-bar .share-btn:hover {
   transform: scale(1.05);
 }
+
+.engagement-bar button {
+  transition: 0.2s ease;
+}
+
+.engagement-bar button:hover {
+  transform: translateY(-2px);
+}

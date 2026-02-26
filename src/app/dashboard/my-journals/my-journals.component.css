@@ -176,3 +176,60 @@
   }
 
 }
+
+/* ===============================
+   SHARE BUTTON
+================================ */
+
+.engagement-bar .share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-color);
+}
+
+.engagement-bar .share-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Optional subtle highlight color */
+.engagement-bar .share-btn:hover span {
+  color: var(--primary-color);
+}
+
+.engagement-bar .share-btn {
+  transition: 0.2s ease;
+}
+
+.engagement-bar .share-btn:hover {
+  transform: scale(1.05);
+}
+
+.engagement-bar button {
+  transition: 0.2s ease;
+}
+
+.engagement-bar button:hover {
+  transform: translateY(-2px);
+}
+
+.engagement-bar {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.engagement-bar button {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  transition: 0.2s ease;
+}
+
+.engagement-bar button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

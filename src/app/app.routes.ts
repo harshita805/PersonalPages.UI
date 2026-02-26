@@ -2,13 +2,13 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from './auth/login.component';
 import { RegisterComponent } from './auth/register.component';
-import { CommunityComponent } from './community/community.component';
+import { CommunityComponent } from './dashboard/community/community.component';
 import { authGuard } from './guards/auth.guard';
 import { CreateJournalComponent } from './journal/create-journal.component';
-import { MyJournalsComponent } from './journal/my-journals.component';
+import { MyJournalsComponent } from './dashboard/my-journals/my-journals.component';
 import { MoodDialogComponent } from './mood/mood-dialog.component';
 import { ProfileComponent } from './profile/profile.component';
-import { PostDetailComponent } from './community/post-detail.component';
+import { PostDetailComponent } from './dashboard/post-detail/post-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'community', pathMatch: 'full' },

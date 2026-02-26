@@ -26,12 +26,9 @@
 
       <ng-container *ngFor="let file of post.media">
 
-        <img *ngIf="file.fileType.startsWith('image/')"
-             [src]="getMediaUrl(file.filePath)"
-             class="media-img" />
+        <img *ngIf="file.fileType.startsWith('image/')" [src]="getMediaUrl(file.filePath)" class="media-img" />
 
-        <video *ngIf="file.fileType.startsWith('video/')"
-               controls class="media-video">
+        <video *ngIf="file.fileType.startsWith('video/')" controls class="media-video">
           <source [src]="getMediaUrl(file.filePath)" />
         </video>
 
@@ -43,6 +40,10 @@
     <div class="engagement-bar">
       <button (click)="likePost()">
         ❤️ {{ post.likeCount }}
+      </button>
+
+      <button (click)="downloadPost()">
+        ⬇ Download
       </button>
     </div>
 
