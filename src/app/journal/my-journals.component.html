@@ -2,34 +2,34 @@
 
   <h2>My Journals</h2>
 
-  @if (journals.length === 0 && !loading) {
+  @if (posts.length === 0 && !loading) {
   <p class="empty-text">No journal entries found.</p>
   } @else {
 
   <div class="search-bar">
     <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange($event)"
-      placeholder="Search my journals..." />
+      placeholder="Search my posts..." />
   </div>
 
-  @for (journal of journals; track journal) {
+  @for (post of posts; track post) {
 
-  <div class="post-card">
+  <div class="post-card clickable" (click)="openPost(post.journalId)">
 
     <!-- Header -->
     <div class="post-header">
       <div class="title-section">
-        <h3>{{ journal.title }}</h3>
+        <h3>{{ post.title }}</h3>
 
         <div class="post-meta">
-          🧑 {{ journal.authorName }}
+          🧑 {{ post.fullName }}
           &nbsp; | &nbsp;
-          📅 {{ journal.createdAt | date:'medium' }}
+          📅 {{ post.createdAt | date:'medium' }}
         </div>
       </div>
 
-      @if(journal.mood){
-      <div class="mood-badge" [ngClass]="journal.mood.toLowerCase()">
-        {{ getMoodEmoji(journal.mood) }} {{ journal.mood }}
+      @if(post.mood){
+      <div class="mood-badge" [ngClass]="post.mood.toLowerCase()">
+        {{ getMoodEmoji(post.mood) }} {{ post.mood }}
       </div>
       }
 
@@ -37,14 +37,14 @@
 
     <!-- Content -->
     <p class="post-preview">
-      {{ journal.content | slice:0:200 }}...
+      {{ post.content | slice:0:200 }}...
     </p>
 
     <!-- 🔥 Media Section -->
-    @if(journal.media && journal.media.length > 0){
+    @if(post.media && post.media.length > 0){
     <div class="post-media">
 
-      @for(file of journal.media; track file){
+      @for(file of post.media; track file){
 
       <!-- Image -->
       @if(file.fileType.startsWith('image/')){
@@ -80,8 +80,8 @@
     </button>
     }
 
-    @if(!hasMore && journals.length > 0){
-    <p class="end-message">No more journals</p>
+    @if(!hasMore && posts.length > 0){
+    <p class="end-message">No more posts</p>
     }
 
   </div>

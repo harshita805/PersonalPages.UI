@@ -5,6 +5,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Journal } from '../model/journal';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-journals',
@@ -15,8 +16,9 @@ import { environment } from '../../environments/environment';
 })
 export class MyJournalsComponent implements OnInit {
 
-  private journalService = inject(JournalService);
-  journals: Journal[] = [];
+  #journalService = inject(JournalService);
+  #router = inject(Router);
+  posts: Journal[] = [];
 
   page = 1;
   pageSize = 5;
@@ -26,7 +28,7 @@ export class MyJournalsComponent implements OnInit {
   searchTerm = '';
   private searchTimeout: any;
   private baseMediaUrl = environment.baseUrl;
-  
+
   ngOnInit() {
     this.loadJournals();
   }
@@ -37,16 +39,16 @@ export class MyJournalsComponent implements OnInit {
 
     this.loading = true;
 
-    this.journalService
+    this.#journalService
       .getMyJournals(this.page, this.pageSize, this.searchTerm)
       .subscribe({
         next: (res) => {
 
-          this.journals = [...this.journals, ...res.data];
+          this.posts = [...this.posts, ...res.data];
 
           this.totalRecords = res.totalRecords;
 
-          this.hasMore = this.journals.length < this.totalRecords;
+          this.hasMore = this.posts.length < this.totalRecords;
 
           this.page++;
 
@@ -85,7 +87,7 @@ export class MyJournalsComponent implements OnInit {
 
   resetAndSearch() {
     this.page = 1;
-    this.journals = [];
+    this.posts = [];
     this.hasMore = true;
 
     this.loadJournals();
@@ -93,5 +95,13 @@ export class MyJournalsComponent implements OnInit {
 
   getMediaUrl(path: string): string {
     return this.baseMediaUrl + path.replace(/\\/g, '/');
+  }
+
+  openPost(postId: number) {
+    const url = this.#router.serializeUrl(
+      this.#router.createUrlTree(['/post', postId])
+    );
+
+    window.open(url, '_blank');
   }
 }

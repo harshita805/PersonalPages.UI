@@ -10,7 +10,7 @@ export interface Journal {
   content: string;
   mood: string;
   createdAt: Date;
-  authorName: string;
+  fullName: string;
   likeCount: number;
   commentCount: number;
 
