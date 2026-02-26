@@ -58,3 +58,57 @@ body {
 html, body {
   overflow-x: hidden;
 }
+
+/* ================================
+   THEME VARIABLES
+================================ */
+
+:root {
+  --bg-color: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-color: #222;
+  --secondary-text: #666;
+  --primary-color: #4a90e2;
+  --border-color: #ddd;
+
+  --font-size-base: 16px;
+  --font-family-base: 'Arial', sans-serif;
+}
+
+body.dark-theme {
+  --bg-color: #1e1e1e;
+  --card-bg: #2b2b2b;
+  --text-color: #f5f5f5;
+  --secondary-text: #aaa;
+  --border-color: #444;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+/* Card Example */
+.journal-card,
+.profile-card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+body {
+  font-size: var(--font-size-base);
+}
+
+body.dark-theme .journal-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme textarea,
+body.dark-theme .title-input {
+  background: #2b2b2b;
+}

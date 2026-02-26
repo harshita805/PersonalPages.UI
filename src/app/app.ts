@@ -7,6 +7,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './loader/loader.component';
+import { ThemeService } from './services/theme.service';
+import { PreferenceService } from './services/preference.service';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +31,8 @@ import { LoaderComponent } from './loader/loader.component';
 })
 export class AppComponent {
   auth = inject(AuthService);
+  #themeService = inject(ThemeService);
+  #preferenceService = inject(PreferenceService);
   private router = inject(Router);
 
   ngOnInit() {
@@ -37,6 +41,13 @@ export class AppComponent {
       // Restart auto-logout timer
       (this.auth as any).startAutoLogout(token);
     }
+
+    this.#preferenceService.getPreferences()
+      .subscribe(prefs => {
+        if (prefs) {
+          this.#themeService.applyPreferences(prefs);
+        }
+      });
   }
 
   logout() {

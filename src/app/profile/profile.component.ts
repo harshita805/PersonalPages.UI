@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UserService } from '../services/user.service';
+import { ThemeService } from '../services/theme.service';
+import { PreferenceService } from '../services/preference.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,6 +31,8 @@ export class ProfileComponent implements OnInit {
 
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
+  #themeService = inject(ThemeService);
+  #preferenceService = inject(PreferenceService);
 
   profileForm = this.fb.group({
     fullName: ['', Validators.required],
@@ -36,16 +40,80 @@ export class ProfileComponent implements OnInit {
     dateOfBirth: ['', Validators.required]
   });
 
+  currentTheme: string = 'light';
+  currentFontSize: number = 16;
+  currentFontFamily: string = "'Arial', sans-serif";
+
   ngOnInit() {
     this.userService.getProfile().subscribe(user => {
       this.profileForm.patchValue(user);
     });
+
+    this.#preferenceService.getPreferences()
+      .subscribe(prefs => {
+
+        if (!prefs) return;
+
+        this.currentTheme = prefs.theme;
+        this.currentFontSize = prefs.fontSize;
+        this.currentFontFamily = prefs.fontFamily;
+
+        // Apply globally
+        this.#themeService.applyPreferences(prefs);
+      });
   }
 
   save() {
     if (this.profileForm.invalid) return;
 
     this.userService.updateProfile(this.profileForm.value)
-      .subscribe(() => alert('Profile updated successfully'));
+      .subscribe(() =>
+        this.savePreferences()
+      );
+  }
+
+  savePreferences() {
+    const prefs = {
+      theme: this.currentTheme,
+      fontSize: this.currentFontSize,
+      fontFamily: this.currentFontFamily
+    };
+
+    this.#preferenceService.savePreferences(prefs)
+      .subscribe(() => {
+        alert('Preferences saved successfully');
+      });
+  }
+
+  toggleTheme(event: any) {
+    const isDark = event.target.checked;
+
+    this.currentTheme = isDark ? 'dark' : 'light';
+
+    this.#themeService.applyPreferences({
+      theme: this.currentTheme,
+      fontSize: this.currentFontSize,
+      fontFamily: this.currentFontFamily
+    });
+  }
+
+  changeFontSize(event: any) {
+    this.currentFontSize = event.target.value;
+
+    this.#themeService.applyPreferences({
+      theme: this.currentTheme,
+      fontSize: this.currentFontSize,
+      fontFamily: this.currentFontFamily
+    });
+  }
+
+  changeFontFamily(event: any) {
+    this.currentFontFamily = event.target.value;
+
+    this.#themeService.applyPreferences({
+      theme: this.currentTheme,
+      fontSize: this.currentFontSize,
+      fontFamily: this.currentFontFamily
+    });
   }
 }

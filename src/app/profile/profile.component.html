@@ -30,10 +30,40 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <button 
-        mat-raised-button 
-        color="primary" 
-        class="save-btn">
+      <div class="preferences-section">
+
+        <h3>Display Preferences</h3>
+
+        <!-- Dark Mode Toggle -->
+        <div class="preference-item">
+          <label>
+            <input type="checkbox" [checked]="currentTheme === 'dark'" (change)="toggleTheme($event)">
+            Dark Mode
+          </label>
+        </div>
+
+        <!-- Font Size Control -->
+        <div class="preference-item">
+          <label>Font Size:</label>
+          <input type="range" min="14" max="22" step="1" [value]="currentFontSize" (input)="changeFontSize($event)">
+        </div>
+
+        <!-- Font Family -->
+        <div class="preference-item">
+          <label>Font Family:</label>
+
+          <select [value]="currentFontFamily" (change)="changeFontFamily($event)">
+            <option value="'Arial', sans-serif">Arial</option>
+            <option value="'Segoe UI', sans-serif">Segoe UI</option>
+            <option value="'Georgia', serif">Georgia</option>
+            <option value="'Courier New', monospace">Courier New</option>
+            <option value="'Poppins', sans-serif">Poppins</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button mat-raised-button color="primary" class="save-btn">
         Save Changes
       </button>
 
