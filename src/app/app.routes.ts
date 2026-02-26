@@ -8,6 +8,7 @@ import { CreateJournalComponent } from './journal/create-journal.component';
 import { MyJournalsComponent } from './journal/my-journals.component';
 import { MoodDialogComponent } from './mood/mood-dialog.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PostDetailComponent } from './community/post-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'community', pathMatch: 'full' },
@@ -32,5 +33,10 @@ export const routes: Routes = [
   {
     path: 'profile', component: ProfileComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'post/:id', component: PostDetailComponent,
+    canActivate: [authGuard]
+
   }
 ];

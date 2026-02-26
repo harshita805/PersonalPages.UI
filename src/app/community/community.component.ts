@@ -1,9 +1,10 @@
 import { CommonModule, DatePipe, SlicePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Journal } from '../model/journal';
 import { JournalService } from '../services/journal.service';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
@@ -11,6 +12,8 @@ import { environment } from '../../environments/environment';
   imports: [CommonModule, SlicePipe, DatePipe, FormsModule]
 })
 export class CommunityComponent implements OnInit {
+  #journalService = inject(JournalService);
+  #router = inject(Router);
 
   // Store comments per post
   commentsMap: { [key: number]: any[] } = {};
@@ -29,7 +32,6 @@ export class CommunityComponent implements OnInit {
   searchTerm = '';
   private searchTimeout: any;
   private baseMediaUrl = environment.baseUrl;
-  constructor(private journalService: JournalService) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -40,7 +42,7 @@ export class CommunityComponent implements OnInit {
 
     this.loading = true;
 
-    this.journalService
+    this.#journalService
       .getPublicPosts(this.page, this.pageSize, this.searchTerm)
       .subscribe({
         next: (res) => {
@@ -58,7 +60,7 @@ export class CommunityComponent implements OnInit {
   }
 
   likePost(post: any) {
-    this.journalService.likeJournal(post.journalId)
+    this.#journalService.likeJournal(post.journalId)
       .subscribe(res => {
         post.likeCount = res.likeCount;
       });
@@ -73,7 +75,7 @@ export class CommunityComponent implements OnInit {
   }
 
   loadComments(postId: number) {
-    this.journalService.getComments(postId)
+    this.#journalService.getComments(postId)
       .subscribe(res => {
         this.commentsMap[postId] = res;
       });
@@ -84,7 +86,7 @@ export class CommunityComponent implements OnInit {
     const content = this.commentInputs[post.journalId];
     if (!content || !content.trim()) return;
 
-    this.journalService.addComment(post.journalId, content)
+    this.#journalService.addComment(post.journalId, content)
       .subscribe(() => {
 
         // Clear input
@@ -131,5 +133,13 @@ export class CommunityComponent implements OnInit {
 
   getMediaUrl(path: string): string {
     return this.baseMediaUrl + path.replace(/\\/g, '/');
+  }
+
+  openPost(postId: number) {
+    const url = this.#router.serializeUrl(
+      this.#router.createUrlTree(['/post', postId])
+    );
+
+    window.open(url, '_blank');
   }
 }

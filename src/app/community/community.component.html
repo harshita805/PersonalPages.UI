@@ -6,7 +6,7 @@
   </div>
 
   @for(post of posts;track post){
-  <div class="post-card">
+  <div class="post-card clickable" (click)="openPost(post.journalId)">
 
     <!-- Header -->
     <div class="post-header">
@@ -60,11 +60,11 @@
     <!-- Engagement -->
     <div class="engagement-bar">
 
-      <button (click)="likePost(post)">
+      <button (click)="likePost(post); $event.stopPropagation()">
         ❤️ {{ post.likeCount }}
       </button>
 
-      <button (click)="toggleComments(post.journalId)">
+      <button (click)="toggleComments(post.journalId); $event.stopPropagation()">
         💬 {{ post.commentCount || 0 }}
       </button>
 
@@ -76,7 +76,7 @@
 
       <div class="comment-input">
         <input [(ngModel)]="commentInputs[post.journalId]" placeholder="Write a comment..." />
-        <button (click)="addComment(post)">Post</button>
+        <button (click)="addComment(post); $event.stopPropagation()">Post</button>
       </div>
 
       @for(comment of commentsMap[post.journalId];track comment){

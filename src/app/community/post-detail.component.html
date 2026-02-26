@@ -1,0 +1,74 @@
+<div class="post-detail-container" *ngIf="!loading && post">
+
+  <div class="post-detail-card">
+
+    <!-- Header -->
+    <div class="post-header">
+      <h2>{{ post.title }}</h2>
+
+      <div class="post-meta">
+        🧑 {{ post.authorName }} |
+        📅 {{ post.createdAt | date:'medium' }}
+      </div>
+
+      <div *ngIf="post.mood" class="mood-badge" [ngClass]="post.mood.toLowerCase()">
+        {{ getMoodEmoji(post.mood) }} {{ post.mood }}
+      </div>
+    </div>
+
+    <!-- Full Content -->
+    <div class="post-content">
+      {{ post.content }}
+    </div>
+
+    <!-- Media -->
+    <div *ngIf="post.media?.length > 0" class="post-media">
+
+      <ng-container *ngFor="let file of post.media">
+
+        <img *ngIf="file.fileType.startsWith('image/')"
+             [src]="getMediaUrl(file.filePath)"
+             class="media-img" />
+
+        <video *ngIf="file.fileType.startsWith('video/')"
+               controls class="media-video">
+          <source [src]="getMediaUrl(file.filePath)" />
+        </video>
+
+      </ng-container>
+
+    </div>
+
+    <!-- Like -->
+    <div class="engagement-bar">
+      <button (click)="likePost()">
+        ❤️ {{ post.likeCount }}
+      </button>
+    </div>
+
+    <!-- Comments -->
+    <div class="comment-section">
+
+      <h3>Comments</h3>
+
+      <div class="comment-input">
+        <input [(ngModel)]="commentInput" placeholder="Write a comment..." />
+        <button (click)="addComment()">Post</button>
+      </div>
+
+      <div *ngFor="let comment of comments" class="comment-item">
+        {{ comment.content }}
+        <div class="comment-date">
+          {{ comment.createdAt | date:'short' }}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div *ngIf="loading" class="loader">
+  Loading post...
+</div>
