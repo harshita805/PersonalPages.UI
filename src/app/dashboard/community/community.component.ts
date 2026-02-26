@@ -6,6 +6,8 @@ import { JournalService } from '../../services/journal.service';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
+import jsPDF from 'jspdf';
+
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
@@ -134,7 +136,7 @@ export class CommunityComponent implements OnInit {
   }
 
   getMediaUrl(path: string): string {
-    return this.baseMediaUrl + "/" + path.replace(/\\/g, '/');
+    return this.baseMediaUrl + "/wwwroot/" + path.replace(/\\/g, '/');
   }
 
   openPost(postId: number) {
@@ -165,28 +167,92 @@ export class CommunityComponent implements OnInit {
     }
   }
 
-  downloadPost(post: any, event: Event) {
+  async downloadPost(post: any, event: Event) {
 
-    // Prevent opening post card
     event.stopPropagation();
 
-    const content = `
-Title: ${post.title}
-Author: ${post.fullName}
-Date: ${new Date(post.createdAt).toLocaleString()}
-Mood: ${post.mood || 'N/A'}
+    const pdf = new jsPDF('p', 'mm', 'a4');
 
-----------------------------------------
+    let yPosition = 15;
 
-${post.content}
-`;
+    // Title
+    pdf.setFontSize(18);
+    pdf.text(post.title, 15, yPosition);
+    yPosition += 10;
 
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+    pdf.setFontSize(11);
+    pdf.text(`Author: ${post.fullName}`, 15, yPosition);
+    yPosition += 7;
 
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+    pdf.text(`Date: ${new Date(post.createdAt).toLocaleString()}`, 15, yPosition);
+    yPosition += 7;
 
-    link.click();
+    pdf.text(`Mood: ${post.mood || 'N/A'}`, 15, yPosition);
+    yPosition += 10;
+
+    pdf.line(15, yPosition, 195, yPosition);
+    yPosition += 10;
+
+    // Content (auto wrap)
+    pdf.setFontSize(12);
+    const contentLines = pdf.splitTextToSize(post.content, 180);
+    pdf.text(contentLines, 15, yPosition);
+    yPosition += contentLines.length * 6 + 5;
+
+    // 🔥 Add Media
+    if (post.media && post.media.length > 0) {
+
+      for (const file of post.media) {
+
+        // Add new page if near bottom
+        if (yPosition > 250) {
+          pdf.addPage();
+          yPosition = 15;
+        }
+
+        if (file.fileType.startsWith('image/')) {
+
+          const imageUrl = this.getMediaUrl(file.filePath);
+
+          const img = await this.loadImageAsBase64(imageUrl);
+
+          pdf.addImage(img, 'JPEG', 15, yPosition, 180, 90);
+          yPosition += 100;
+        }
+
+        if (file.fileType.startsWith('video/')) {
+
+          pdf.setFontSize(11);
+          pdf.text(`Video: ${this.getMediaUrl(file.filePath)}`, 15, yPosition);
+          yPosition += 10;
+        }
+      }
+    }
+
+    pdf.save(`${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`);
+  }
+
+  loadImageAsBase64(url: string): Promise<string> {
+
+    return new Promise((resolve, reject) => {
+
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0);
+
+        resolve(canvas.toDataURL('image/jpeg'));
+      };
+
+      img.onerror = error => reject(error);
+
+      img.src = url;
+    });
   }
 }

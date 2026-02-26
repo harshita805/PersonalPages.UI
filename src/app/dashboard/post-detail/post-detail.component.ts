@@ -67,7 +67,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   getMediaUrl(path: string): string {
-    return this.baseMediaUrl + "/" + path.replace(/\\/g, '/');
+    return this.baseMediaUrl + "/wwwroot/" + path.replace(/\\/g, '/');
   }
 
   getMoodEmoji(mood: string): string {
