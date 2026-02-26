@@ -9,6 +9,7 @@ import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './loader/loader.component';
 import { ThemeService } from './services/theme.service';
 import { PreferenceService } from './services/preference.service';
+import { BackButtonComponent } from './back/back-button.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { PreferenceService } from './services/preference.service';
     LoaderComponent,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    BackButtonComponent
   ],
   templateUrl: './app.html',
   styles: [`
