@@ -1,67 +1,6 @@
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f4f6f8;
-}
-
-.page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-}
-
-.form-card {
-  width: 420px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.form-card h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.full {
-  width: 100%;
-}
-
-.link-text {
-  margin-top: 12px;
-  text-align: center;
-  font-size: 14px;
-}
-
-.link-text a {
-  color: #1976d2;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.cursor-pointer{
-  cursor: pointer;
-}
-
-.full {
-  width: 100%;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-html, body {
-  overflow-x: hidden;
-}
-
-/* ================================
-   THEME VARIABLES
-================================ */
+/* ==========================================
+   GLOBAL DESIGN SYSTEM
+========================================== */
 
 :root {
   --bg-color: #f5f7fa;
@@ -73,42 +12,122 @@ html, body {
 
   --font-size-base: 16px;
   --font-family-base: 'Arial', sans-serif;
+
+  --radius: 1rem;
+  --spacing: 1rem;
 }
 
+/* DARK MODE */
 body.dark-theme {
   --bg-color: #1e1e1e;
   --card-bg: #2b2b2b;
-  --text-color: #f5f5f5;
-  --secondary-text: #aaa;
+  --text-color: #f8f9fa;
+  --secondary-text: #c5c6c7;
   --border-color: #444;
 }
 
+/* ==========================================
+   GLOBAL BASE
+========================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  background: var(--bg-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
-}
-
-/* Card Example */
-.journal-card,
-.profile-card {
-  background: var(--card-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+  padding: 0;
 }
 
 body {
+  background: var(--bg-color);
+  color: var(--text-color);
   font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-body.dark-theme .journal-card {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+/* =================================
+   MATERIAL DARK MODE FIX
+================================= */
+
+body.dark-theme .mat-mdc-form-field {
+  color: var(--text-color);
 }
 
-body.dark-theme textarea,
-body.dark-theme .title-input {
-  background: #2b2b2b;
+body.dark-theme .mdc-text-field--outlined {
+  background: var(--card-bg) !important;
+}
+
+body.dark-theme .mat-mdc-input-element {
+  color: var(--text-color) !important;
+}
+
+body.dark-theme .mat-mdc-select-value {
+  color: var(--text-color) !important;
+}
+
+body.dark-theme .mat-mdc-floating-label {
+  color: var(--secondary-text) !important;
+}
+
+/* =================================
+   MAT CHECKBOX GLOBAL STYLING
+================================= */
+
+/* Default (Light Mode) */
+.mat-mdc-checkbox {
+  font-family: var(--font-family-base);
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* Checkbox label text */
+.mat-mdc-checkbox .mdc-label {
+  color: var(--text-color);
+}
+
+/* Checkbox border */
+.mat-mdc-checkbox .mdc-checkbox__background {
+  border-color: var(--border-color);
+}
+
+/* Checked state */
+.mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Ripple color */
+.mat-mdc-checkbox .mat-ripple-element {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* =================================
+   DARK MODE FIXES
+================================= */
+
+body.dark-theme .mat-mdc-checkbox {
+  color: var(--text-color);
+}
+
+body.dark-theme .mat-mdc-checkbox .mdc-label {
+  color: var(--text-color);
+}
+
+/* Border in dark mode */
+body.dark-theme .mat-mdc-checkbox .mdc-checkbox__background {
+  border-color: var(--border-color);
+}
+
+/* Checked state dark */
+body.dark-theme .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Ripple in dark mode */
+body.dark-theme .mat-mdc-checkbox .mat-ripple-element {
+  background-color: rgba(255, 255, 255, 0.15);
 }

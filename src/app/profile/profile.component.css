@@ -1,94 +1,139 @@
-/* Page Background */
+/* =================================
+   PROFILE WRAPPER
+================================= */
+
 .profile-wrapper {
   min-height: 100vh;
-  background: #f4f7fb;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
+  padding: 2.5rem 1rem;
+  background: var(--bg-color);
 }
 
-/* Card */
+/* =================================
+   PROFILE CARD
+================================= */
+
 .profile-card {
   width: 100%;
-  max-width: 550px;
-  background: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-  transition: 0.3s;
+  max-width: 40rem;
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 2.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.06);
+  transition: 0.3s ease;
 }
 
-.profile-card:hover {
-  transform: translateY(-3px);
-}
+/* =================================
+   HEADER
+================================= */
 
-/* Header */
 .profile-header {
-  margin-bottom: 25px;
+  margin-bottom: 2rem;
 }
 
 .profile-header h2 {
-  margin-bottom: 5px;
+  margin: 0 0 0.4rem 0;
+  font-size: 1.6rem;
 }
 
 .profile-header p {
-  color: gray;
-  font-size: 14px;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--secondary-text);
 }
 
-/* Form Fields */
+/* =================================
+   FORM FIELDS
+================================= */
+
 .full {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 1.2rem;
 }
 
-/* Save Button */
-.save-btn {
-  width: 100%;
-  margin-top: 10px;
-  height: 45px;
-  border-radius: 10px !important;
-  font-weight: 500;
-  font-size: 15px;
-  transition: 0.3s;
-}
-
-.save-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(78,115,223,0.3);
-}
-
-/* Responsive */
-@media(max-width:768px) {
-  .profile-card {
-    padding: 25px;
-  }
-}
+/* =================================
+   DISPLAY PREFERENCES SECTION
+================================= */
 
 .preferences-section {
-  margin-top: 25px;
-  padding: 20px;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
   background: var(--card-bg);
-  border-radius: 12px;
   border: 1px solid var(--border-color);
 }
 
-.preference-item {
-  margin-bottom: 15px;
+.preferences-section h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
 }
 
+/* =================================
+   PREFERENCE ITEM
+================================= */
+
+.preference-item {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Checkbox */
+.preference-item input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Range Slider */
 .preference-item input[type="range"] {
   width: 100%;
+  cursor: pointer;
 }
 
+/* Dropdown */
 .preference-item select {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.6rem 0.8rem;
   font-size: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   border: 1px solid var(--border-color);
   background: var(--card-bg);
   color: var(--text-color);
-  margin-top: 0.4rem;
+}
+
+/* =================================
+   SAVE BUTTON
+================================= */
+
+.save-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 0.8rem;
+}
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 768px) {
+
+  .profile-card {
+    padding: 1.8rem;
+  }
+
+  .profile-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .preferences-section {
+    padding: 1.2rem;
+  }
+
 }

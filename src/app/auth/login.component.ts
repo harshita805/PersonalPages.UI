@@ -41,7 +41,7 @@ export class LoginComponent {
 
     this.auth.login(this.loginForm.value)
       .subscribe({
-        next: () => this.router.navigate(['/dashboard']),
+        next: () => this.router.navigate(['/community']),
         error: err => alert(err.error)
       });
   }

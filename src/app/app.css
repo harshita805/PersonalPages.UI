@@ -1,27 +1,41 @@
-/* Toolbar Base */
+/* ===============================
+   MAIN TOOLBAR
+================================ */
+
 .main-toolbar {
   height: 65px;
-  padding: 0 25px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
   background: linear-gradient(135deg, #4e73df, #1cc88a);
-  color: white;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-/* Logo Section */
+/* ===============================
+   LOGO SECTION
+================================ */
+
 .logo-section {
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .logo-section:hover {
-  opacity: 0.85;
+  opacity: 0.9;
+  transform: scale(1.02);
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
 }
 
 .app-title {
@@ -30,42 +44,90 @@
   letter-spacing: 0.5px;
 }
 
-/* Spacer */
+/* ===============================
+   SPACER
+================================ */
+
 .spacer {
   flex: 1 1 auto;
 }
 
-/* Actions */
+/* ===============================
+   ACTION BUTTONS
+================================ */
+
 .toolbar-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Icon Buttons */
+
 .icon-btn {
-  color: white;
-  transition: 0.3s;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .icon-btn:hover {
-  background: rgba(255,255,255,0.15);
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
 }
 
-/* Primary Action Highlight */
+/* Highlighted Primary Button */
+
 .primary-action {
-  background: rgba(255,255,255,0.2);
-  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* Menu Customization */
+.primary-action:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ===============================
+   ACCOUNT MENU CUSTOMIZATION
+================================ */
+
 ::ng-deep .account-menu .mat-mdc-menu-panel {
-  border-radius: 15px !important;
-  padding: 5px 0;
+  border-radius: 14px !important;
+  padding: 8px 0 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 ::ng-deep .mat-mdc-menu-item {
-  gap: 10px;
   font-size: 14px;
+  gap: 12px;
+  padding: 10px 16px;
+  transition: background 0.2s ease;
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 768px) {
+
+  .main-toolbar {
+    padding: 0 16px;
+  }
+
+  .app-title {
+    display: none; /* Hide text on small screens */
+  }
+
+  .toolbar-actions {
+    gap: 8px;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
 }

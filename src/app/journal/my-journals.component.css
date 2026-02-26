@@ -1,148 +1,178 @@
+/* =================================
+   MAIN CONTAINER
+================================= */
+
 .community-container {
-  width: 90%;
-  max-width: 900px;
-  margin: 40px auto;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
+
+/* =================================
+   PAGE TITLE
+================================= */
+
+.community-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+}
+
+/* =================================
+   EMPTY STATE
+================================= */
 
 .empty-text {
   text-align: center;
-  margin-top: 20px;
-  color: gray;
+  margin-top: 3rem;
+  font-size: 1rem;
+  color: var(--secondary-text);
 }
 
-/* Card */
-.post-card {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  margin-bottom: 25px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  transition: 0.3s;
-}
-
-.post-card:hover {
-  transform: translateY(-4px);
-}
-
-/* Header */
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.title-section h3 {
-  margin-bottom: 5px;
-}
-
-.post-meta {
-  font-size: 13px;
-  color: gray;
-}
-
-/* Mood Badge */
-.mood-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-/* Mood Colors */
-.mood-badge.happy {
-  background: #e6f9f0;
-  color: #1cc88a;
-}
-
-.mood-badge.sad {
-  background: #eaf2ff;
-  color: #4e73df;
-}
-
-.mood-badge.angry {
-  background: #ffe6e6;
-  color: #e74a3b;
-}
-
-.mood-badge.anxious {
-  background: #fff4e6;
-  color: #f39c12;
-}
-
-.mood-badge.excited {
-  background: #fceaff;
-  color: #9b59b6;
-}
-
-.mood-badge.calm {
-  background: #eef9ff;
-  color: #17a2b8;
-}
-
-/* Content */
-.post-preview {
-  margin-top: 15px;
-  line-height: 1.6;
-  color: #444;
-}
-
-/* Responsive */
-@media(max-width:768px) {
-  .post-header {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-.load-more-container {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.load-more-btn {
-  padding: 8px 20px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.end-message {
-  color: gray;
-  font-size: 14px;
-}
+/* =================================
+   SEARCH BAR
+================================= */
 
 .search-bar {
-  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
 .search-bar input {
   width: 100%;
-  padding: 8px;
+  padding: 0.75rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1rem;
 }
+
+/* =================================
+   POST CARD
+================================= */
+
+.post-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: 0.3s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.08);
+}
+
+/* =================================
+   HEADER
+================================= */
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.title-section h3 {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.2rem;
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--secondary-text);
+}
+
+/* =================================
+   MOOD BADGE
+================================= */
+
+.mood-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 2rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  background: rgba(0,0,0,0.05);
+}
+
+/* =================================
+   CONTENT
+================================= */
+
+.post-preview {
+  margin: 1rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* =================================
+   MEDIA SECTION
+================================= */
 
 .post-media {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.5rem;
 }
 
-.media-img {
-  width: 150px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.media-img:hover {
-  transform: scale(1.05);
-}
-
+.media-img,
 .media-video {
-  width: 220px;
-  border-radius: 8px;
+  width: 100%;
+  border-radius: 0.6rem;
+  object-fit: cover;
+}
+
+/* =================================
+   LOAD MORE
+================================= */
+
+.load-more-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.load-more-btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.load-more-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.end-message {
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  margin-top: 1rem;
+}
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 768px) {
+
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mood-badge {
+    margin-top: 0.5rem;
+  }
+
+  .post-media {
+    grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+  }
+
 }
