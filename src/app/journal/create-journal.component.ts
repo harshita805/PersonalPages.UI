@@ -264,7 +264,7 @@ export class CreateJournalComponent implements OnInit {
         this.selectedFiles = [];
         this.isSaving = false;
 
-        this.#router.navigate(['/dashboard']);
+        this.#router.navigate(['/community']);
       },
       error: () => {
         alert('Error saving journal.');
