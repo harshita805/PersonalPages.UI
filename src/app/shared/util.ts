@@ -76,22 +76,41 @@ export function getMoodEmoji(mood: string): string {
 }
 
 export function sharePost(post: any, event: Event, alertService: AlertService) {
-    // Prevent post card click
-    event.stopPropagation();
 
-    const postUrl = `${window.location.origin}/post/${post.journalId}`;
+  event.stopPropagation();
 
-    if (navigator.share) {
-        navigator.share({
-            title: post.title,
-            text: post.content?.slice(0, 100),
-            url: postUrl
-        }).catch(() => { });
-    } else {
-        navigator.clipboard.writeText(postUrl).then(() => {
-            alertService.show('Link copied to clipboard!');
-        });
-    }
+  let postUrl: string;
+
+  // 🔥 Virtual AI Post
+  if (post.isVirtual || post.journalId < 0) {
+
+    const params = new URLSearchParams({
+      virtual: 'true',
+      title: post.title,
+      content: post.content?.slice(0, 200),
+      mood: post.mood,
+      author: post.fullName
+    });
+
+    postUrl = `${window.location.origin}/post?${params.toString()}`;
+  }
+  else {
+    // ✅ Real DB post
+    postUrl = `${window.location.origin}/post/${post.journalId}`;
+  }
+
+  if (navigator.share) {
+    navigator.share({
+      title: post.title,
+      text: post.content?.slice(0, 100),
+      url: postUrl
+    }).catch(() => { });
+  }
+  else {
+    navigator.clipboard.writeText(postUrl).then(() => {
+      alertService.show('Link copied to clipboard!');
+    });
+  }
 }
 
 async function convertImageUrlToBase64(url: string): Promise<string> {

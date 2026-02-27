@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { JournalService } from '../../services/journal.service';
 import { environment } from '../../../environments/environment';
-import { getMoodEmoji, getMediaUrl, sharePost, downloadPost } from '../../shared/util';
+import { getMoodEmoji, getMediaUrl, downloadPost } from '../../shared/util';
 
 @Component({
   selector: 'app-post-detail',
@@ -27,12 +27,48 @@ export class PostDetailComponent implements OnInit {
     private journalService: JournalService
   ) { }
 
-  ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadPost(id);
+  ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+
+      // 🔥 Virtual AI Post
+      if (params['virtual'] === 'true') {
+
+        this.post = {
+          journalId: -1,
+          title: params['title'],
+          content: params['content'],
+          mood: params['mood'],
+          authorName: params['author'],   // ✅ FIXED
+          createdAt: new Date(params['createdAt']),
+          isVirtual: true,
+          likeCount: 0,
+          commentCount: 0,
+          viewCount: 0,
+          media: []
+        };
+
+        this.loading = false;   // ✅ IMPORTANT FIX
+        return;
+      }
+
+      // ✅ Real DB Post
+      this.route.paramMap.subscribe(paramMap => {
+        const idParam = paramMap.get('id');
+
+        if (idParam) {
+          const id = Number(idParam);
+
+          if (!isNaN(id)) {
+            this.loadPostFromApi(id);
+          }
+        }
+      });
+
+    });
   }
 
-  loadPost(id: number) {
+  loadPostFromApi(id: number) {
     this.journalService.getJournal(id).subscribe({
       next: (res) => {
         this.post = res;
@@ -44,6 +80,11 @@ export class PostDetailComponent implements OnInit {
   }
 
   likePost() {
+    if (this.post.isVirtual) {
+      this.post.likeCount++;
+      return;
+    }
+
     this.journalService.likeJournal(this.post.journalId)
       .subscribe(res => {
         this.post.likeCount = res.likeCount;
@@ -51,6 +92,8 @@ export class PostDetailComponent implements OnInit {
   }
 
   loadComments(postId: number) {
+    if (this.post?.isVirtual) return;
+
     this.journalService.getComments(postId)
       .subscribe(res => {
         this.comments = res;
@@ -59,6 +102,15 @@ export class PostDetailComponent implements OnInit {
 
   addComment() {
     if (!this.commentInput.trim()) return;
+
+    if (this.post.isVirtual) {
+      this.comments.unshift({
+        content: this.commentInput,
+        createdAt: new Date()
+      });
+      this.commentInput = '';
+      return;
+    }
 
     this.journalService.addComment(this.post.journalId, this.commentInput)
       .subscribe(() => {

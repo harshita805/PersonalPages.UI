@@ -5,8 +5,8 @@
       placeholder="Search journals..." />
   </div>
 
-  @for(post of posts;track post){
-  <div class="post-card clickable" (click)="openPost(post.journalId)" [id]="'post-' + post.journalId">
+  @for(post of posts; track post.journalId){
+<div class="post-card clickable" (click)="openPost(post)" [id]="'post-' + post.journalId">
 
     <!-- Header -->
     <div class="post-header">

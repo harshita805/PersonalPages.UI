@@ -4,44 +4,42 @@
 
     <!-- Header -->
     <div class="post-header">
-      <h2>{{ post.title }}</h2>
+      <h2>{{ post?.title }}</h2>
 
       <div class="post-meta">
-        🧑 {{ post.authorName }} |
-        📅 {{ post.createdAt | date:'medium' }}
+        🧑 {{ post?.authorName }} |
+        📅 {{ post?.createdAt | date:'medium' }}
       </div>
 
-      <div *ngIf="post.mood" class="mood-badge" [ngClass]="post.mood.toLowerCase()">
+      <div *ngIf="post?.mood" class="mood-badge" [ngClass]="post.mood.toLowerCase()">
         {{ getMoodEmoji(post.mood) }} {{ post.mood }}
       </div>
     </div>
 
     <!-- Full Content -->
     <div class="post-content">
-      {{ post.content }}
+      {{ post?.content }}
     </div>
 
     <!-- Media -->
-    @if(post.media && post.media.length > 0){
-    <div class="post-media">
-      @for(file of post.media; track file){
-      <ng-container>
+    <div *ngIf="post?.media?.length > 0" class="post-media">
+      <ng-container *ngFor="let file of post.media">
+        <img *ngIf="file.fileType?.startsWith('image/')" 
+             [src]="getMediaUrl(file.filePath)" 
+             class="media-img" />
 
-        <img *ngIf="file.fileType.startsWith('image/')" [src]="getMediaUrl(file.filePath)" class="media-img" />
-
-        <video *ngIf="file.fileType.startsWith('video/')" controls class="media-video">
+        <video *ngIf="file.fileType?.startsWith('video/')" 
+               controls 
+               class="media-video">
           <source [src]="getMediaUrl(file.filePath)" />
         </video>
-
       </ng-container>
-      }
     </div>
-    }
 
     <!-- Like -->
     <div class="engagement-bar" data-html2canvas-ignore="true">
       <button (click)="likePost()">
-        ❤️ {{ post.likeCount }}
+        ❤️ {{ post?.likeCount }}
       </button>
 
       <button (click)="downloadPost(post, $event)">

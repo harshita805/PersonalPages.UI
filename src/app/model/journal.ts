@@ -16,5 +16,6 @@ export interface Journal {
   commentCount: number;
   viewCount: number;
   isAiGenerated: boolean;
+  isVirtual: boolean;
   media?: JournalMedia[];   // 🔥 ADD THIS
 }

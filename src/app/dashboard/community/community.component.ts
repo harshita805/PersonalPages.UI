@@ -123,13 +123,35 @@ export class CommunityComponent implements OnInit {
     this.loadPosts();
   }
 
-  openPost(postId: number) {
+  openPost(post: any) {
+
+  // 🔥 If virtual AI post (not saved in DB)
+  if (post.isVirtual || post.journalId < 0) {
+
     const url = this.#router.serializeUrl(
-      this.#router.createUrlTree(['/post', postId])
+      this.#router.createUrlTree(['/post'], {
+        queryParams: {
+          virtual: true,
+          title: post.title,
+          content: post.content,
+          mood: post.mood,
+          author: post.fullName,
+          createdAt: post.createdAt
+        }
+      })
     );
 
     window.open(url, '_blank');
+    return;
   }
+
+  // ✅ Normal DB post
+  const url = this.#router.serializeUrl(
+    this.#router.createUrlTree(['/post', post.journalId])
+  );
+
+  window.open(url, '_blank');
+}
 
   getMoodEmoji(mood: string): string {
     return getMoodEmoji(mood);
