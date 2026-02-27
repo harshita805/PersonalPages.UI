@@ -60,6 +60,10 @@
     <!-- Engagement -->
     <div class="engagement-bar" data-html2canvas-ignore="true">
 
+      <div class="engagement-item view-count">
+        👁 {{ post.viewCount || 0 }}
+      </div>
+
       <button (click)="likePost(post); $event.stopPropagation()">
         ❤️ {{ post.likeCount }}
       </button>

@@ -14,6 +14,7 @@ export interface Journal {
   fullName: string;
   likeCount: number;
   commentCount: number;
-
+  viewCount: number;
+  isAiGenerated: boolean;
   media?: JournalMedia[];   // 🔥 ADD THIS
 }
