@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { JournalService } from '../../services/journal.service';
 import { environment } from '../../../environments/environment';
+import { getMoodEmoji, getMediaUrl, sharePost, downloadPost } from '../../shared/util';
 
 @Component({
   selector: 'app-post-detail',
@@ -66,41 +67,15 @@ export class PostDetailComponent implements OnInit {
       });
   }
 
-  getMediaUrl(path: string): string {
-    return this.baseMediaUrl + "/wwwroot/" + path.replace(/\\/g, '/');
-  }
-
   getMoodEmoji(mood: string): string {
-    switch (mood?.toLowerCase()) {
-      case 'happy': return '😊';
-      case 'sad': return '😢';
-      case 'angry': return '😡';
-      case 'anxious': return '😰';
-      case 'excited': return '🤩';
-      case 'calm': return '😌';
-      default: return '🙂';
-    }
+    return getMoodEmoji(mood);
   }
 
-  downloadPost() {
+  getMediaUrl(path: string): string {
+    return getMediaUrl(path, this.baseMediaUrl);
+  }
 
-    const content = `
-Title: ${this.post.title}
-Author: ${this.post.fullName}
-Date: ${new Date(this.post.createdAt).toLocaleString()}
-Mood: ${this.post.mood || 'N/A'}
-
-----------------------------------------
-
-${this.post.content}
-`;
-
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
-
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${this.post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
-
-    link.click();
+  downloadPost(post: any, event: Event) {
+    downloadPost(post, event);
   }
 }

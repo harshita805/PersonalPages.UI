@@ -114,16 +114,29 @@
 
 .post-media {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 0.8rem;
-  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.media-img,
-.media-video {
+/* Shared style for image + video */
+.post-media img,
+.post-media video {
   width: 100%;
-  border-radius: 0.6rem;
+  aspect-ratio: 4 / 3;
+  /* 🔥 Perfect ratio */
   object-fit: cover;
+  border-radius: 0.6rem;
+  background: #f3f3f3;
+}
+
+@media (max-width: 768px) {
+
+  .post-media img,
+  .post-media video {
+    height: 110px;
+  }
+
 }
 
 /* =================================

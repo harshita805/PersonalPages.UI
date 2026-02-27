@@ -10,9 +10,24 @@
   background: linear-gradient(135deg, #4e73df, #1cc88a);
   color: #ffffff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  position: sticky;
+
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+
   z-index: 1000;
+}
+
+router-outlet+*,
+.page-container,
+body {
+  margin-top: 65px;
+}
+
+.page-content {
+  margin-top: 65px;
 }
 
 /* ===============================
@@ -119,7 +134,8 @@
   }
 
   .app-title {
-    display: none; /* Hide text on small screens */
+    display: none;
+    /* Hide text on small screens */
   }
 
   .toolbar-actions {

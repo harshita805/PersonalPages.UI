@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { Journal } from '../../model/journal';
 import { JournalService } from '../../services/journal.service';
 import { AlertService } from '../../services/alert.service';
+import { getMoodEmoji, getMediaUrl, sharePost, downloadPost } from '../../shared/util';
 
 @Component({
   selector: 'app-my-journals',
@@ -62,18 +63,6 @@ export class MyJournalsComponent implements OnInit {
       });
   }
 
-  getMoodEmoji(mood: string): string {
-    switch (mood?.toLowerCase()) {
-      case 'happy': return '😊';
-      case 'sad': return '😢';
-      case 'angry': return '😡';
-      case 'anxious': return '😰';
-      case 'excited': return '🤩';
-      case 'calm': return '😌';
-      default: return '🙂';
-    }
-  }
-
   onSearchChange(value: string) {
 
     this.searchTerm = value;
@@ -95,10 +84,6 @@ export class MyJournalsComponent implements OnInit {
     this.loadJournals();
   }
 
-  getMediaUrl(path: string): string {
-    return this.baseMediaUrl + "/wwwroot/" + path.replace(/\\/g, '/');
-  }
-
   openPost(postId: number) {
     const url = this.#router.serializeUrl(
       this.#router.createUrlTree(['/post', postId])
@@ -107,48 +92,19 @@ export class MyJournalsComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  getMoodEmoji(mood: string): string {
+    return getMoodEmoji(mood);
+  }
+
+  getMediaUrl(path: string): string {
+    return getMediaUrl(path, this.baseMediaUrl);
+  }
+
   sharePost(post: any, event: Event) {
-
-    // Prevent post card click
-    event.stopPropagation();
-
-    const postUrl = `${window.location.origin}/post/${post.journalId}`;
-
-    if (navigator.share) {
-      navigator.share({
-        title: post.title,
-        text: post.content?.slice(0, 100),
-        url: postUrl
-      }).catch(() => { });
-    } else {
-      navigator.clipboard.writeText(postUrl).then(() => {
-        this.#alertService.show('Link copied to clipboard!');
-      });
-    }
+    sharePost(post, event, this.#alertService);
   }
 
   downloadPost(post: any, event: Event) {
-
-    // Prevent opening post card
-    event.stopPropagation();
-
-    const content = `
-Title: ${post.title}
-Author: ${post.fullName}
-Date: ${new Date(post.createdAt).toLocaleString()}
-Mood: ${post.mood || 'N/A'}
-
-----------------------------------------
-
-${post.content}
-`;
-
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
-
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${post.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
-
-    link.click();
+    downloadPost(post, event);
   }
 }

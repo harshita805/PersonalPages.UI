@@ -2,6 +2,7 @@ export interface JournalMedia {
   id: number;
   filePath: string;
   fileType: string;
+  base64Data?: string;
 }
 
 export interface Journal {

@@ -39,12 +39,12 @@
     }
 
     <!-- Like -->
-    <div class="engagement-bar">
+    <div class="engagement-bar" data-html2canvas-ignore="true">
       <button (click)="likePost()">
         ❤️ {{ post.likeCount }}
       </button>
 
-      <button (click)="downloadPost()">
+      <button (click)="downloadPost(post, $event)">
         ⬇ Download
       </button>
     </div>
@@ -70,8 +70,4 @@
 
   </div>
 
-</div>
-
-<div *ngIf="loading" class="loader">
-  Loading post...
 </div>
