@@ -4,7 +4,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './loader/loader.component';
 import { ThemeService } from './services/theme.service';
@@ -12,6 +12,7 @@ import { PreferenceService } from './services/preference.service';
 import { BackButtonComponent } from './back-button/back-button.component';
 import { ToastComponent } from './toast/toast.component';
 import { AiChatComponent } from './ai-chat/ai-chat.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,21 @@ export class AppComponent {
   #themeService = inject(ThemeService);
   #preferenceService = inject(PreferenceService);
   private router = inject(Router);
+
+  showFloatingButtons = true;
+
+  constructor() {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+
+        const currentUrl = this.router.url;
+
+        // Hide on login page
+        this.showFloatingButtons =
+          !(currentUrl.includes('/login') && currentUrl.includes('/register'));
+      });
+  }
 
   ngOnInit() {
     const token = this.auth.getToken();
