@@ -11,6 +11,7 @@ import { ThemeService } from './services/theme.service';
 import { PreferenceService } from './services/preference.service';
 import { BackButtonComponent } from './back-button/back-button.component';
 import { ToastComponent } from './toast/toast.component';
+import { AiChatComponent } from './ai-chat/ai-chat.component';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ import { ToastComponent } from './toast/toast.component';
     MatButtonModule,
     MatIconModule,
     BackButtonComponent,
-    ToastComponent
+    ToastComponent,
+    AiChatComponent
   ],
   templateUrl: './app.html',
   styles: [`

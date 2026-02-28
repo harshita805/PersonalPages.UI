@@ -1,0 +1,34 @@
+<!-- Floating Button -->
+<button class="chat-fab" (click)="toggleChat()">
+  🤖
+</button>
+
+<!-- Chat Panel -->
+<div class="chat-panel" [class.open]="isOpen">
+
+  <div class="chat-header">
+    <span>AI Assistant</span>
+    <button (click)="toggleChat()">✖</button>
+  </div>
+
+  <div class="chat-body">
+    <div *ngFor="let msg of messages"
+         [class.user]="msg.role === 'user'"
+         [class.ai]="msg.role === 'ai'"
+         class="chat-bubble">
+      {{ msg.text }}
+    </div>
+
+    <div *ngIf="loading" class="chat-bubble ai">
+      Typing...
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input [(ngModel)]="message"
+           (keyup.enter)="sendMessage()"
+           placeholder="Ask something..." />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+
+</div>

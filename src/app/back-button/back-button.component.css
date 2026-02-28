@@ -1,18 +1,13 @@
-/* ===============================
-   FLOATING BACK BUTTON (RIGHT SIDE)
-================================ */
-
 .floating-back-btn {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;   /* 🔥 moved to right */
+  bottom: 6.5rem;   /* 🔥 moved higher */
+  right: 2rem;
   width: 3.4rem;
   height: 3.4rem;
   border-radius: 50%;
   border: none;
   cursor: pointer;
 
-  /* Modern Glass Style */
   background: var(--primary-color);
   color: #fff;
   font-size: 1.3rem;
@@ -27,25 +22,9 @@
   z-index: 1000;
 }
 
-/* Hover effect */
-.floating-back-btn:hover {
-  transform: translateY(-5px) scale(1.08);
-  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.25);
-  opacity: 0.95;
-}
-
-/* Active press */
-.floating-back-btn:active {
-  transform: scale(0.95);
-}
-
-/* Mobile responsive */
 @media (max-width: 768px) {
   .floating-back-btn {
-    bottom: 1.2rem;
+    bottom: 5.5rem;   /* 🔥 adjusted for smaller screens */
     right: 1.2rem;
-    width: 3rem;
-    height: 3rem;
-    font-size: 1.1rem;
   }
 }
